@@ -76,6 +76,16 @@
           <span>Accessibility</span>
         </button>
 
+        <!-- LocalStorage Live Inspector Button -->
+        <button 
+          class="btn-icon-text" 
+          onclick="openStorageInspector()" 
+          title="Inspect live browser LocalStorage data"
+          aria-label="View Browser LocalStorage Data">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"/></svg>
+          <span>LocalStorage</span>
+        </button>
+
         <!-- Orders History Button -->
         <button 
           class="btn-icon-text" 
@@ -714,6 +724,39 @@
     <div class="modal-footer">
       <button class="btn-secondary" onclick="clearOrdersHistory()">Clear Order History</button>
       <button class="btn-primary" onclick="closeModal('orders-modal')">Close</button>
+    </div>
+  </div>
+
+  <!-- Browser LocalStorage Live Data Inspector Modal -->
+  <div 
+    class="modal-window" 
+    id="storage-modal" 
+    role="dialog" 
+    aria-modal="true" 
+    aria-labelledby="storage-modal-title"
+    style="max-width: 760px;">
+    <div class="modal-header">
+      <h2 id="storage-modal-title">Browser LocalStorage Live Inspector</h2>
+      <button class="btn-close-drawer" onclick="closeModal('storage-modal')" aria-label="Close Storage Inspector">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="background: var(--bg-subtle); padding: 12px 16px; border-radius: var(--radius-md); border-left: 4px solid var(--primary); margin-bottom: 16px;">
+        <p style="font-size: var(--font-xs); color: var(--text-primary); line-height: 1.5;">
+          <strong>Client-Side Storage Engine:</strong> This application relies 100% on pure JavaScript <code>window.localStorage</code>. All changes to the product catalog, stock deduction, basket line-items, and order invoices are written directly to your browser's persistent key-value store in real-time.
+        </p>
+      </div>
+
+      <div id="storage-inspector-tabs" style="display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap;">
+        <!-- Populated dynamically by openStorageInspector() -->
+      </div>
+
+      <div style="position: relative;">
+        <pre id="storage-inspector-content" style="background: #0f172a; color: #38bdf8; padding: 14px; border-radius: var(--radius-md); font-size: 12px; max-height: 320px; overflow-y: auto; font-family: monospace; border: 1px solid var(--border-medium); line-height: 1.4;"></pre>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="refreshStorageInspector()">🔄 Refresh Live Data</button>
+      <button class="btn-primary" onclick="closeModal('storage-modal')">Close</button>
     </div>
   </div>
 
