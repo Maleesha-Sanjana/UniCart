@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="style.css">
 
   <!-- Favicon / Brand Icon -->
-  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛒</text></svg>">
 </head>
 <body>
 
@@ -36,9 +36,29 @@
   <!-- Main Site Header -->
   <header class="site-header" role="banner">
     <div class="container header-main">
-      <!-- Brand Logo -->
+      <!-- Brand Logo (Inline SVG) -->
       <a href="index.html" class="logo-link" aria-label="UniCart Home">
-        <img src="logo.svg" alt="UniCart Logo" width="180" height="48">
+        <svg viewBox="0 0 220 50" width="180" height="42" role="img" aria-label="UniCart Logo">
+          <defs>
+            <linearGradient id="headerLogoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#3B82F6" />
+              <stop offset="100%" stop-color="#06B6D4" />
+            </linearGradient>
+          </defs>
+          <g transform="translate(4, 5)">
+            <circle cx="20" cy="20" r="19" fill="url(#headerLogoGrad)" />
+            <path d="M11 14 h4 l3 10 h10 l2.5 -7 h-16" fill="none" stroke="#FFFFFF" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="19" cy="27" r="2" fill="#FFFFFF"/>
+            <circle cx="26" cy="27" r="2" fill="#FFFFFF"/>
+            <circle cx="27" cy="11" r="3" fill="#F59E0B" stroke="#FFFFFF" stroke-width="1.2"/>
+          </g>
+          <text x="52" y="31" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="900" font-size="24" fill="currentColor" letter-spacing="-0.5">
+            Uni<tspan fill="#3B82F6">Cart</tspan>
+          </text>
+          <text x="54" y="42" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="700" font-size="8" fill="#64748B" letter-spacing="1.2">
+            UNIVERSAL STORE
+          </text>
+        </svg>
       </a>
 
       <!-- Live Search Bar with Category Select -->
@@ -74,16 +94,6 @@
           aria-label="Open Universal Design & Accessibility Settings">
           <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg>
           <span>Accessibility</span>
-        </button>
-
-        <!-- LocalStorage Live Inspector Button -->
-        <button 
-          class="btn-icon-text" 
-          onclick="openStorageInspector()" 
-          title="Inspect live browser LocalStorage data"
-          aria-label="View Browser LocalStorage Data">
-          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"/></svg>
-          <span>LocalStorage</span>
         </button>
 
         <!-- Orders History Button -->
@@ -768,7 +778,23 @@
     <div class="container">
       <div class="footer-grid">
         <div class="footer-col">
-          <img src="logo.svg" alt="UniCart Logo" width="160" height="40" style="margin-bottom: 12px;">
+          <div style="margin-bottom: 12px;">
+            <svg viewBox="0 0 220 50" width="160" height="38" role="img" aria-label="UniCart Logo">
+              <g transform="translate(4, 5)">
+                <circle cx="20" cy="20" r="19" fill="url(#headerLogoGrad)" />
+                <path d="M11 14 h4 l3 10 h10 l2.5 -7 h-16" fill="none" stroke="#FFFFFF" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="19" cy="27" r="2" fill="#FFFFFF"/>
+                <circle cx="26" cy="27" r="2" fill="#FFFFFF"/>
+                <circle cx="27" cy="11" r="3" fill="#F59E0B" stroke="#FFFFFF" stroke-width="1.2"/>
+              </g>
+              <text x="52" y="31" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="900" font-size="24" fill="currentColor" letter-spacing="-0.5">
+                Uni<tspan fill="#3B82F6">Cart</tspan>
+              </text>
+              <text x="54" y="42" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="700" font-size="8" fill="#64748B" letter-spacing="1.2">
+                UNIVERSAL STORE
+              </text>
+            </svg>
+          </div>
           <p style="font-size: var(--font-xs); color: var(--text-muted); line-height: 1.6; max-width: 380px;">
             UniCart is an exemplary e-commerce web application developed for BSc(Hons) Software Engineering Year 3 (Task 1: 40%). Created with HTML5, CSS3, and JavaScript adhering strictly to Universal Design Standards and browser LocalStorage specifications without any subfolders. All prices are in Sri Lankan Rupees (LKR).
           </p>
