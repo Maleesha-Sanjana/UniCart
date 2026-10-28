@@ -607,7 +607,7 @@ function openQuickView(productId) {
   modalBody.innerHTML = `
     <div class="quick-view-grid">
       <div class="quick-view-img-box">
-        <img src="${product.image}" alt="${product.name}" style="max-height: 280px; width: 100%; object-fit: contain;">
+        <img src="${product.image}" alt="${product.name}" style="max-height: 280px; width: 100%; object-fit: cover; border-radius: var(--radius-md);">
       </div>
       <div>
         <div class="product-meta">
@@ -1356,4 +1356,48 @@ function setupKeyboardShortcuts() {
       if (searchInput) searchInput.focus();
     }
   });
+}
+
+// --- Browser LocalStorage Live Inspector ---
+
+function openStorageInspector(activeTab = 'cart') {
+  const container = document.getElementById('storage-inspector-tabs');
+  const codeBox = document.getElementById('storage-inspector-content');
+  if (!container || !codeBox) return;
+
+  const tabs = [
+    { id: 'cart', label: '🛒 Shopping Basket', key: STORAGE_KEYS.CART },
+    { id: 'products', label: '📦 Products Catalog & Stock', key: STORAGE_KEYS.PRODUCTS },
+    { id: 'orders', label: '📜 Order History Invoices', key: STORAGE_KEYS.ORDERS },
+    { id: 'settings', label: '♿ User Settings', key: STORAGE_KEYS.SETTINGS }
+  ];
+
+  container.innerHTML = tabs.map(t => {
+    const isCurrent = t.id === activeTab;
+    return `
+      <button 
+        type="button"
+        class="btn-secondary" 
+        style="font-size: 11px; padding: 6px 12px; border-radius: var(--radius-md); ${isCurrent ? 'background: var(--primary); color: #ffffff; border-color: var(--primary); font-weight: 700;' : ''}" 
+        onclick="openStorageInspector('${t.id}')">
+        ${t.label}
+      </button>
+    `;
+  }).join('');
+
+  const currentTab = tabs.find(t => t.id === activeTab) || tabs[0];
+  const rawData = localStorage.getItem(currentTab.key);
+  try {
+    const formatted = rawData ? JSON.stringify(JSON.parse(rawData), null, 2) : 'null // (Key is empty or not yet seeded)';
+    codeBox.textContent = `// JavaScript API: window.localStorage.getItem("${currentTab.key}")\n\n${formatted}`;
+  } catch (e) {
+    codeBox.textContent = rawData || 'No data';
+  }
+
+  openModal('storage-modal');
+}
+
+function refreshStorageInspector() {
+  openStorageInspector('cart');
+  showToast('LocalStorage live data inspector refreshed!', 'info');
 }

@@ -3,6 +3,7 @@
  * Product Catalog Data & LocalStorage Seed
  * Exactly 10 Products across 3 Categories ("Electronics", "Clothing", "Food")
  * Currency: Sri Lankan Rupee (LKR)
+ * Real Photographic Images (product-1.jpg to product-10.jpg in root folder)
  * All files in root folder for submission.
  */
 
@@ -18,7 +19,7 @@ const DEFAULT_PRODUCTS = [
     rating: 4.8,
     reviewsCount: 128,
     badge: "Best Seller",
-    image: "product-1.svg",
+    image: "product-1.jpg",
     shortDescription: "Flagship over-ear headphones with 40-hour battery life and adaptive hybrid active noise cancellation.",
     fullDescription: "Immerse yourself in concert-grade acoustic fidelity. The Aura Sound Pro features precision-tuned 40mm bio-cellulose drivers, multi-microphone spatial voice capture, ultra-plush memory foam earcups, and dual Bluetooth 5.3 multipoint connectivity.",
     specs: [
@@ -39,7 +40,7 @@ const DEFAULT_PRODUCTS = [
     rating: 4.6,
     reviewsCount: 94,
     badge: "Trending",
-    image: "product-2.svg",
+    image: "product-2.jpg",
     shortDescription: "Ultra-bright AMOLED health watch with continuous ECG, SpO2 tracking, and 50m water resistance.",
     fullDescription: "Stay empowered with real-time biometric tracking. Equipped with a 1.78\" Always-On Retina AMOLED display, dual-frequency GNSS navigation, 110+ athletic workout modes, and emergency SOS fall detection.",
     specs: [
@@ -60,7 +61,7 @@ const DEFAULT_PRODUCTS = [
     rating: 4.9,
     reviewsCount: 210,
     badge: "Low Stock",
-    image: "product-3.svg",
+    image: "product-3.jpg",
     shortDescription: "Rugged 4K/60fps video camera with dual color screens, EIS 3.0 anti-shake, and 30m dive casing.",
     fullDescription: "Capture every heart-pounding adventure in true cinema quality. Lumina 4K boasts 60fps ultra-HD capture, electronic image stabilization 3.0, 170-degree ultra-wide distortion-corrected lens, and high-fidelity wind-noise reduction audio.",
     specs: [
@@ -81,7 +82,7 @@ const DEFAULT_PRODUCTS = [
     rating: 4.7,
     reviewsCount: 340,
     badge: "Amazon Choice",
-    image: "product-4.svg",
+    image: "product-4.jpg",
     shortDescription: "Ultra-compact Gallium Nitride wall charger with dual USB-C Power Delivery and USB-A Quick Charge.",
     fullDescription: "Power laptops, tablets, and smartphones at maximum velocity. Powered by next-generation GaN III semiconductor technology, running 40% cooler and 50% smaller than standard OEM bricks with foldaway travel prongs.",
     specs: [
@@ -104,7 +105,7 @@ const DEFAULT_PRODUCTS = [
     rating: 4.7,
     reviewsCount: 88,
     badge: "Eco-Friendly",
-    image: "product-5.svg",
+    image: "product-5.jpg",
     shortDescription: "100% Australian superfine Merino wool knit sweater, naturally temperature-regulating and hypoallergenic.",
     fullDescription: "Experience timeless Scandinavian minimalist elegance. Crafted from sustainably harvested, non-mulesed 19.5-micron Merino wool. Retains warmth when cold, cools when warm, and naturally resists odor and creases.",
     specs: [
@@ -125,7 +126,7 @@ const DEFAULT_PRODUCTS = [
     rating: 4.8,
     reviewsCount: 62,
     badge: "Premium",
-    image: "product-6.svg",
+    image: "product-6.jpg",
     shortDescription: "10,000mm hydrostatic waterproof hooded parka with thermo-sealed seams and recycled breathable shell.",
     fullDescription: "Defy unpredictable weather in total comfort. Engineered with a 3-layer laminated membrane, articulated storm hood with perimeter drawcord, YKK AquaGuard watertight zippers, and interior magnetic glove pockets.",
     specs: [
@@ -146,7 +147,7 @@ const DEFAULT_PRODUCTS = [
     rating: 4.5,
     reviewsCount: 155,
     badge: "Daily Essential",
-    image: "product-7.svg",
+    image: "product-7.jpg",
     shortDescription: "Four-way stretch athletic tapered joggers with elastic waistband and zippered security phone pocket.",
     fullDescription: "Engineered for active movement and casual relaxation. Breathable moisture-wicking technical fabric keeps you dry throughout training, while articulated knee darting ensures unrestricted range of motion.",
     specs: [
@@ -169,7 +170,7 @@ const DEFAULT_PRODUCTS = [
     rating: 4.9,
     reviewsCount: 412,
     badge: "Staff Pick",
-    image: "product-8.svg",
+    image: "product-8.jpg",
     shortDescription: "Direct-trade high-altitude Ethiopian Arabica whole beans with tasting notes of dark chocolate & hazelnut.",
     fullDescription: "Roasted in small batches to preserve delicate aroma oils. Grown at 1,900m above sea level in the Yirgacheffe highlands, our medium-dark roast produces a velvety crema, silky body, and subtle floral finish.",
     specs: [
@@ -190,7 +191,7 @@ const DEFAULT_PRODUCTS = [
     rating: 4.8,
     reviewsCount: 179,
     badge: "Organic",
-    image: "product-9.svg",
+    image: "product-9.jpg",
     shortDescription: "Unpasteurized, unfiltered mountain meadow honey packed with natural pollen, enzymes, and antioxidants.",
     fullDescription: "Pure nectar harvested straight from pristine high-alpine meadows. Because our honey is cold-extracted without thermal pasteurization, all live enzymes, floral aromas, and bio-nutrients remain completely intact.",
     specs: [
@@ -211,7 +212,7 @@ const DEFAULT_PRODUCTS = [
     rating: 4.7,
     reviewsCount: 95,
     badge: "Gourmet",
-    image: "product-10.svg",
+    image: "product-10.jpg",
     shortDescription: "Single-estate Tuscan olive oil cold-extracted within 6 hours of harvest. Acidity under 0.2%.",
     fullDescription: "The gold standard of Mediterranean culinary excellence. Handpicked Frantoio and Leccino olives cold-pressed in Tuscany, Italy. Rich in polyphenols, featuring vibrant notes of freshly cut grass, artichoke, and a peppery finish.",
     specs: [
@@ -224,13 +225,13 @@ const DEFAULT_PRODUCTS = [
   }
 ];
 
-// LocalStorage Keys (v2 for LKR currency)
+// LocalStorage Keys (v3 for Real Images & LKR)
 const STORAGE_KEYS = {
-  PRODUCTS: "unicart_products_lkr_v2",
-  CART: "unicart_cart_lkr_v2",
-  ORDERS: "unicart_orders_lkr_v2",
-  SETTINGS: "unicart_settings_v2",
-  PROMO: "unicart_applied_promo_lkr_v2"
+  PRODUCTS: "unicart_products_realimg_v3",
+  CART: "unicart_cart_realimg_v3",
+  ORDERS: "unicart_orders_realimg_v3",
+  SETTINGS: "unicart_settings_v3",
+  PROMO: "unicart_applied_promo_realimg_v3"
 };
 
 /**

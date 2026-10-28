@@ -882,7 +882,7 @@ ul, ol {
 .product-image-box img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
   transition: transform var(--transition-normal);
 }
 
@@ -1320,8 +1320,8 @@ ul, ol {
   height: 64px;
   background: var(--bg-subtle);
   border-radius: var(--radius-md);
-  padding: 4px;
-  object-fit: contain;
+  padding: 0;
+  object-fit: cover;
 }
 
 .basket-item-info h4 {
