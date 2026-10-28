@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 320" width="100%" height="100%" role="img" aria-label="Aura Sound Pro Wireless Noise-Cancelling Headphones">
+  <defs>
+    <linearGradient id="bg1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#EEF2FF"/>
+      <stop offset="100%" stop-color="#E0E7FF"/>
+    </linearGradient>
+    <linearGradient id="headband" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1E293B"/>
+      <stop offset="100%" stop-color="#0F172A"/>
+    </linearGradient>
+    <linearGradient id="metal" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#94A3B8"/>
+      <stop offset="50%" stop-color="#F1F5F9"/>
+      <stop offset="100%" stop-color="#64748B"/>
+    </linearGradient>
+    <linearGradient id="earcup" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#334155"/>
+      <stop offset="100%" stop-color="#0F172A"/>
+    </linearGradient>
+    <filter id="shadow1" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="12" stdDeviation="10" flood-color="#0F172A" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+  <!-- Background -->
+  <rect width="400" height="320" rx="20" fill="url(#bg1)"/>
+  <!-- Decorative Soundwave Rings -->
+  <circle cx="200" cy="160" r="120" fill="none" stroke="#6366F1" stroke-width="1.5" stroke-dasharray="4 6" opacity="0.4"/>
+  <circle cx="200" cy="160" r="140" fill="none" stroke="#818CF8" stroke-width="1" stroke-dasharray="2 8" opacity="0.3"/>
+  <!-- Headphones Group with Shadow -->
+  <g filter="url(#shadow1)">
+    <!-- Headband Arch -->
+    <path d="M 125 180 C 125 80, 275 80, 275 180" fill="none" stroke="url(#headband)" stroke-width="26" stroke-linecap="round"/>
+    <!-- Headband Inner Cushion -->
+    <path d="M 145 150 C 145 105, 255 105, 255 150" fill="none" stroke="#475569" stroke-width="10" stroke-linecap="round"/>
+    <!-- Metal Extenders -->
+    <rect x="118" y="165" width="14" height="30" rx="3" fill="url(#metal)"/>
+    <rect x="268" y="165" width="14" height="30" rx="3" fill="url(#metal)"/>
+    <!-- Left Pivot Fork -->
+    <path d="M 115 190 C 115 205, 100 205, 100 215" fill="none" stroke="url(#metal)" stroke-width="7"/>
+    <!-- Right Pivot Fork -->
+    <path d="M 285 190 C 285 205, 300 205, 300 215" fill="none" stroke="url(#metal)" stroke-width="7"/>
+    <!-- Left Earcup Outer -->
+    <ellipse cx="110" cy="225" rx="32" ry="48" fill="url(#earcup)" transform="rotate(-10 110 225)"/>
+    <!-- Left Earcup Ring & Logo -->
+    <ellipse cx="110" cy="225" rx="24" ry="38" fill="#1E293B" transform="rotate(-10 110 225)"/>
+    <circle cx="110" cy="225" r="12" fill="#0F172A" stroke="#6366F1" stroke-width="2"/>
+    <circle cx="110" cy="225" r="4" fill="#38BDF8"/>
+    <!-- Right Earcup Outer -->
+    <ellipse cx="290" cy="225" rx="32" ry="48" fill="url(#earcup)" transform="rotate(10 290 225)"/>
+    <!-- Right Earcup Ring & Logo -->
+    <ellipse cx="290" cy="225" rx="24" ry="38" fill="#1E293B" transform="rotate(10 290 225)"/>
+    <circle cx="290" cy="225" r="12" fill="#0F172A" stroke="#6366F1" stroke-width="2"/>
+    <circle cx="290" cy="225" r="4" fill="#38BDF8"/>
+  </g>
+  <!-- Sound Indicator Glow / LED -->
+  <circle cx="316" cy="245" r="3" fill="#10B981"/>
+  <!-- Sub-label -->
+  <text x="200" y="295" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#4F46E5" text-anchor="middle" letter-spacing="1">HI-RES AUDIO • ANC</text>
+</svg>
