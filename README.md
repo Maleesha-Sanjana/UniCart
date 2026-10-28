@@ -2,7 +2,7 @@
 
 **Program:** BSc (Hons) Software Engineering  
 **Level:** Year 3  
-**Module Task:** Task 1 – Application Development (40%)  
+**Module:** Web Application Development  
 **Group Size:** Three Students (03)  
 **Currency:** Sri Lankan Rupee (LKR)  
 
@@ -78,7 +78,7 @@ The design of UniCart explicitly adheres to the established Universal Design sta
 5. **Tolerance for Error:**
    - Quantity bounds checking prevents adding items beyond available physical stock.
    - Item removal provides an immediate **"Undo"** toast notification.
-   - Input validation with descriptive error guidance and a **"1-Click Auto-Fill Demo Data"** button (with Sri Lankan address) to eliminate typing errors during evaluation.
+   - Robust input validation with descriptive error guidance and input masking for payment details.
 6. **Low Physical Effort:**
    - Sticky header provides immediate access to search, basket drawer, and accessibility preferences from anywhere on the page.
    - 1-click quick add-to-basket directly from the catalog.
@@ -146,7 +146,7 @@ UniCart/
    - **Adding to Basket:** Click "Add to Basket" on any product. Notice the badge counter update and toast notification.
    - **Free Delivery:** Add items totaling over `LKR 15,000.00` to observe the free delivery unlock animation.
    - **Discount Code:** Open the basket drawer and enter `UNICART10` (or click the hero promo code card) to apply a 10% discount on LKR totals.
-   - **Checkout Wizard:** Click "Proceed to Checkout" in the basket. On Step 1, click **"1-Click Auto-Fill Demo Data"** to automatically populate Sri Lankan shipping information.
+   - **Checkout Wizard:** Click "Proceed to Checkout" in the basket. On Step 1, enter Sri Lankan shipping information.
    - **Interactive Payment:** On Step 2, observe the real-time Credit Card visualizer updates as details are entered.
    - **Order Confirmation & Invoicing:** On Step 3, confirm the order. Observe the stock reduction, generated invoice in LKR, and receipt printer dialog.
    - **Order History:** Click "My Orders" in the header to view persisted orders in `localStorage`.

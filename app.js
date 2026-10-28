@@ -1,9 +1,6 @@
 /**
  * UniCart - Universal E-Commerce Application
  * Main Application Logic, State Management & Accessibility Controller
- * Pure Vanilla JavaScript (ES6+), LocalStorage Persistence
- * Currency: Sri Lankan Rupee (LKR)
- * All files in root folder for submission.
  */
 
 // Global State
@@ -39,7 +36,7 @@ const PROMO_CODES = {
   'WELCOME20': { discount: 0.20, label: '20% Off Welcome Student Discount' }
 };
 
-// --- Initialisation ---
+// Initialisation
 document.addEventListener('DOMContentLoaded', () => {
   initStorage();
   initAccessibilitySettings();
@@ -59,6 +56,7 @@ function initStorage() {
   try {
     const savedCart = localStorage.getItem(STORAGE_KEYS.CART);
     State.cart = savedCart ? JSON.parse(savedCart) : [];
+    if (!Array.isArray(State.cart)) State.cart = [];
 
     const savedPromo = localStorage.getItem(STORAGE_KEYS.PROMO);
     State.appliedPromo = savedPromo ? JSON.parse(savedPromo) : null;
@@ -69,6 +67,7 @@ function initStorage() {
     }
   } catch (e) {
     console.error('Error loading state from localStorage', e);
+    State.cart = [];
   }
 }
 
@@ -138,7 +137,7 @@ function applyReducedMotion(enabled) {
 }
 
 /**
- * Text-to-Speech Accessibility Function (Universal Design Principle 4)
+ * Text-to-Speech Accessibility Function
  */
 function speakText(text) {
   if (!('speechSynthesis' in window) || !State.settings.speechEnabled) return;
@@ -156,14 +155,12 @@ function announceToScreenReader(message) {
   }
 }
 
-// --- Catalog Rendering & Filtering ---
+// Catalog Rendering & Filtering
 
 function getFilteredProducts() {
   return State.products.filter(p => {
-    // Category match
     const categoryMatch = (State.activeCategory === 'All') || (p.category.toLowerCase() === State.activeCategory.toLowerCase());
     
-    // Search query match
     const q = State.searchQuery.trim().toLowerCase();
     const queryMatch = !q || (
       p.name.toLowerCase().includes(q) ||
@@ -172,10 +169,7 @@ function getFilteredProducts() {
       p.badge.toLowerCase().includes(q)
     );
 
-    // Price range match
     const priceMatch = p.price <= State.maxPrice;
-
-    // Stock match
     const stockMatch = !State.inStockOnly || p.stock > 0;
 
     return categoryMatch && queryMatch && priceMatch && stockMatch;
@@ -185,7 +179,7 @@ function getFilteredProducts() {
       case 'price-desc': return b.price - a.price;
       case 'rating-desc': return b.rating - a.rating;
       case 'name-asc': return a.name.localeCompare(b.name);
-      default: return a.id - b.id; // 'featured'
+      default: return a.id - b.id;
     }
   });
 }
@@ -201,7 +195,6 @@ function renderProducts() {
     countLabel.textContent = `Showing ${filtered.length} of ${State.products.length} products`;
   }
 
-  // Update Category Badge counts in Subnav
   updateCategoryCounts();
 
   if (filtered.length === 0) {
@@ -316,7 +309,7 @@ function readProductAloud(id) {
   showToast(`Reading: ${product.name}`, 'info');
 }
 
-// --- Shopping Basket Logic ---
+// Shopping Basket Logic
 
 function addToCart(productId, quantity = 1) {
   const product = State.products.find(p => p.id === productId);
@@ -341,7 +334,6 @@ function addToCart(productId, quantity = 1) {
   updateCartUI();
   renderProducts();
 
-  // Visual button feedback
   const btn = document.getElementById(`btn-add-${productId}`);
   if (btn) {
     btn.classList.add('added-success');
@@ -409,7 +401,7 @@ function undoLastRemoval() {
   showToast('Item restored to basket!', 'success');
 }
 
-function clearCart(confirmFirst = true) {
+function clearCart(confirmFirst = true, silent = false) {
   if (State.cart.length === 0) return;
   if (confirmFirst && !confirm('Are you sure you want to remove all items from your basket?')) {
     return;
@@ -420,7 +412,9 @@ function clearCart(confirmFirst = true) {
   saveCart();
   updateCartUI();
   renderProducts();
-  showToast('Basket has been cleared.', 'info');
+  if (!silent) {
+    showToast('Basket has been cleared.', 'info');
+  }
 }
 
 function saveCart() {
@@ -443,18 +437,15 @@ function calculateCartTotals() {
     }
   });
 
-  // Free shipping threshold = LKR 15,000.00
   const freeShippingThreshold = 15000.00;
   const isFreeShipping = subtotal >= freeShippingThreshold || subtotal === 0;
   const shipping = isFreeShipping ? 0 : 750.00;
 
-  // Promo code discount
   let discountAmount = 0;
   if (State.appliedPromo && State.appliedPromo.discount) {
     discountAmount = subtotal * State.appliedPromo.discount;
   }
 
-  // Estimated Tax / Service: 5%
   const taxableAmount = Math.max(0, subtotal - discountAmount);
   const tax = taxableAmount * 0.05;
 
@@ -475,13 +466,11 @@ function calculateCartTotals() {
 function updateCartUI() {
   const totals = calculateCartTotals();
 
-  // Header badges & subtotal
   const badge = document.getElementById('basket-badge-count');
   const subtotalLabel = document.getElementById('basket-header-subtotal');
   if (badge) badge.textContent = totals.itemCount;
   if (subtotalLabel) subtotalLabel.textContent = formatCurrency(totals.total);
 
-  // Basket Drawer content
   const drawerList = document.getElementById('basket-items-container');
   const emptyView = document.getElementById('basket-empty-view');
   const drawerFooter = document.getElementById('basket-drawer-footer');
@@ -491,7 +480,6 @@ function updateCartUI() {
     drawerCountHeader.textContent = `Shopping Basket (${totals.itemCount} items)`;
   }
 
-  // Free Shipping Meter (in LKR)
   const shippingText = document.getElementById('shipping-meter-status');
   const shippingProgressBar = document.getElementById('shipping-progress-fill');
   if (shippingText && shippingProgressBar) {
@@ -518,7 +506,6 @@ function updateCartUI() {
   if (emptyView) emptyView.style.display = 'none';
   if (drawerFooter) drawerFooter.style.display = 'block';
 
-  // Render Basket items
   if (drawerList) {
     drawerList.innerHTML = State.cart.map(item => {
       const product = State.products.find(p => p.id === item.productId);
@@ -557,13 +544,11 @@ function updateCartUI() {
     }).join('');
   }
 
-  // Update Summary numbers in LKR
   document.getElementById('drawer-subtotal-val').textContent = formatCurrency(totals.subtotal);
   document.getElementById('drawer-shipping-val').textContent = totals.shipping === 0 ? 'FREE' : formatCurrency(totals.shipping);
   document.getElementById('drawer-tax-val').textContent = formatCurrency(totals.tax);
   document.getElementById('drawer-grandtotal-val').textContent = formatCurrency(totals.total);
 
-  // Discount display
   const discountRow = document.getElementById('drawer-discount-row');
   if (discountRow) {
     if (totals.discountAmount > 0) {
@@ -575,7 +560,6 @@ function updateCartUI() {
   }
 }
 
-// Promo Code Application
 function applyPromoCode(inputCode) {
   const code = (inputCode || document.getElementById('promo-input-field').value || '').trim().toUpperCase();
   if (!code) return;
@@ -592,7 +576,7 @@ function applyPromoCode(inputCode) {
   }
 }
 
-// --- Quick View Modal ---
+// Quick View Modal
 
 function openQuickView(productId) {
   const product = State.products.find(p => p.id === productId);
@@ -657,7 +641,7 @@ function openQuickView(productId) {
   openModal('quick-view-modal');
 }
 
-// --- Checkout Process (4 Steps) ---
+// Checkout Process
 
 function startCheckout() {
   if (State.cart.length === 0) {
@@ -730,15 +714,15 @@ function selectPaymentMethod(method) {
 
   const cardDetails = document.getElementById('card-payment-fields');
   const altDetails = document.getElementById('alt-payment-message');
-  if (method === 'card') {
-    cardDetails.style.display = 'block';
-    altDetails.style.display = 'none';
-  } else {
-    cardDetails.style.display = 'none';
-    altDetails.style.display = 'block';
-    altDetails.textContent = method === 'paypal' 
-      ? 'You will be redirected to PayPal sandbox authorization on final order confirmation.' 
-      : 'You can pay in cash or via portable terminal upon arrival of order in Sri Lanka.';
+  if (cardDetails) cardDetails.style.display = method === 'card' ? 'block' : 'none';
+  if (altDetails) {
+    altDetails.style.display = method === 'card' ? 'none' : 'block';
+    const msgPara = altDetails.querySelector('p');
+    if (msgPara) {
+      msgPara.textContent = method === 'paypal' 
+        ? 'You will be redirected to PayPal sandbox authorization on final order confirmation.' 
+        : 'You can pay in cash or via portable terminal upon arrival of order in Sri Lanka.';
+    }
   }
 }
 
@@ -844,7 +828,7 @@ function renderCheckoutReview() {
       </div>
       ${totals.discountAmount > 0 ? `
         <div style="display: flex; justify-content: space-between; font-size: var(--font-sm); color: var(--success); margin-bottom: 4px;">
-          <span>Promo Discount (${State.appliedPromo.code}):</span><span>-${formatCurrency(totals.discountAmount)}</span>
+          <span>Promo Discount (${State.appliedPromo?.code || 'PROMO'}):</span><span>-${formatCurrency(totals.discountAmount)}</span>
         </div>` : ''}
       <div style="display: flex; justify-content: space-between; font-size: var(--font-sm); margin-bottom: 4px;">
         <span>Estimated Delivery:</span><span>${totals.shipping === 0 ? 'FREE' : formatCurrency(totals.shipping)}</span>
@@ -870,7 +854,6 @@ function placeFinalOrder() {
   const orderId = `UC-${new Date().getFullYear()}-${Math.floor(10000 + Math.random() * 90000)}`;
   const orderDate = new Date().toLocaleString('en-GB', { dateStyle: 'medium', timeStyle: 'short' });
 
-  // 1. Deduct Inventory Stock in LocalStorage
   State.cart.forEach(cartItem => {
     const prod = State.products.find(p => p.id === cartItem.productId);
     if (prod) {
@@ -879,7 +862,6 @@ function placeFinalOrder() {
   });
   saveProducts(State.products);
 
-  // 2. Prepare Order Object
   const orderRecord = {
     orderId,
     orderDate,
@@ -899,16 +881,9 @@ function placeFinalOrder() {
     totals: { ...totals }
   };
 
-  // 3. Save to Past Orders in LocalStorage
   saveOrderToHistory(orderRecord);
-
-  // 4. Render Step 4 Confirmation & Invoice
   renderOrderConfirmation(orderRecord);
-
-  // 5. Clear Basket
-  clearCart(false);
-
-  // 6. Transition Step
+  clearCart(false, true);
   setCheckoutStep(4);
   speakText(`Order confirmed! Your order reference is ${orderId}. Total paid is ${totals.total.toLocaleString()} Sri Lankan Rupees. Thank you for shopping with UniCart.`);
   showToast(`Order ${orderId} placed successfully!`, 'success');
@@ -927,7 +902,11 @@ function saveOrderToHistory(order) {
 
 function renderOrderConfirmation(order) {
   const container = document.getElementById('checkout-confirmation-container');
-  if (!container) return;
+  if (!container || !order) return;
+
+  const s = order.shippingData || { name: 'Customer', address: 'N/A', city: 'Colombo', postal: '00100', email: 'customer@unicart.lk', phone: 'N/A' };
+  const totals = order.totals || { subtotal: order.total || 0, discountAmount: 0, shipping: 0, tax: 0, total: order.total || 0 };
+  const items = Array.isArray(order.items) ? order.items : [];
 
   container.innerHTML = `
     <div class="order-success-view">
@@ -936,7 +915,7 @@ function renderOrderConfirmation(order) {
       </div>
       <h3>Payment &amp; Order Confirmed!</h3>
       <p style="font-size: var(--font-sm); color: var(--text-secondary); margin-bottom: 14px;">
-        A confirmation email has been dispatched to <strong>${order.shippingData.email}</strong>.
+        A confirmation email has been dispatched to <strong>${s.email}</strong>.
       </p>
 
       <div class="order-ref-box">
@@ -947,7 +926,7 @@ function renderOrderConfirmation(order) {
         <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--border-medium); padding-bottom: 12px; margin-bottom: 14px;">
           <div>
             <h3 style="font-size: var(--font-lg); font-weight: 900; color: var(--primary);">UniCart Universal Store</h3>
-            <span style="font-size: 11px; color: var(--text-muted);">BSc(Hons) Software Engineering Project (Sri Lanka)</span>
+            <span style="font-size: 11px; color: var(--text-muted);">Universal E-Commerce Store (Sri Lanka)</span>
           </div>
           <div style="text-align: right; font-size: var(--font-xs);">
             <strong>Invoice #: ${order.orderId}</strong><br>
@@ -958,14 +937,14 @@ function renderOrderConfirmation(order) {
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; font-size: var(--font-xs); margin-bottom: 16px;">
           <div>
             <strong>Billed &amp; Shipped To:</strong><br>
-            ${order.shippingData.name}<br>
-            ${order.shippingData.address}<br>
-            ${order.shippingData.city}, ${order.shippingData.postal}<br>
-            Phone: ${order.shippingData.phone || 'N/A'}
+            ${s.name}<br>
+            ${s.address}<br>
+            ${s.city}, ${s.postal}<br>
+            Phone: ${s.phone || 'N/A'}
           </div>
           <div>
             <strong>Payment Method:</strong><br>
-            ${order.paymentMethod === 'card' ? `Credit Card (${order.maskedCard || '•••• 4242'})` : order.paymentMethod.toUpperCase()}<br>
+            ${order.paymentMethod === 'card' ? `Credit Card (${order.maskedCard || '•••• 4242'})` : (order.paymentMethod ? order.paymentMethod.toUpperCase() : 'CREDIT CARD')}<br>
             <strong>Status:</strong> <span style="color: var(--success); font-weight: 700;">PAID &amp; CONFIRMED</span><br>
             <strong>Estimated Dispatch:</strong> Next Business Day
           </div>
@@ -981,7 +960,7 @@ function renderOrderConfirmation(order) {
             </tr>
           </thead>
           <tbody>
-            ${order.items.map(item => `
+            ${items.map(item => `
               <tr style="border-bottom: 1px solid var(--border-light);">
                 <td style="padding: 6px;">${item.name}</td>
                 <td style="text-align: center; padding: 6px;">${item.quantity}</td>
@@ -993,12 +972,12 @@ function renderOrderConfirmation(order) {
         </table>
 
         <div style="text-align: right; font-size: var(--font-xs); line-height: 1.6;">
-          <div>Subtotal: <strong>${formatCurrency(order.totals.subtotal)}</strong></div>
-          ${order.totals.discountAmount > 0 ? `<div>Discount: <strong style="color: var(--success);">- ${formatCurrency(order.totals.discountAmount)}</strong></div>` : ''}
-          <div>Shipping: <strong>${order.totals.shipping === 0 ? 'FREE' : formatCurrency(order.totals.shipping)}</strong></div>
-          <div>Tax (5%): <strong>${formatCurrency(order.totals.tax)}</strong></div>
+          <div>Subtotal: <strong>${formatCurrency(totals.subtotal)}</strong></div>
+          ${totals.discountAmount > 0 ? `<div>Discount: <strong style="color: var(--success);">- ${formatCurrency(totals.discountAmount)}</strong></div>` : ''}
+          <div>Shipping: <strong>${totals.shipping === 0 ? 'FREE' : formatCurrency(totals.shipping)}</strong></div>
+          <div>Tax (5%): <strong>${formatCurrency(totals.tax)}</strong></div>
           <div style="font-size: var(--font-base); font-weight: 900; margin-top: 6px; border-top: 1px solid var(--border-medium); padding-top: 6px;">
-            Total Paid: <span style="color: var(--primary);">${formatCurrency(order.totals.total)}</span>
+            Total Paid: <span style="color: var(--primary);">${formatCurrency(totals.total)}</span>
           </div>
         </div>
       </div>
@@ -1018,7 +997,7 @@ function renderOrderConfirmation(order) {
   `;
 }
 
-// --- Past Orders History Modal ---
+// Past Orders Modal
 
 function openOrdersModal() {
   const container = document.getElementById('orders-history-list');
@@ -1044,13 +1023,13 @@ function openOrdersModal() {
             <span style="font-size: 11px; background: var(--success-bg); color: var(--success); padding: 2px 8px; border-radius: var(--radius-full); font-weight: 700;">Paid</span>
           </div>
           <div style="font-size: var(--font-xs); color: var(--text-secondary); margin-bottom: 8px;">
-            Placed on ${o.orderDate} • ${o.items.length} items
+            Placed on ${o.orderDate} • ${(o.items || []).length} items
           </div>
           <div style="font-size: var(--font-xs); color: var(--text-muted); margin-bottom: 8px;">
-            ${o.items.map(i => `${i.name} (×${i.quantity})`).join(', ')}
+            ${(o.items || []).map(i => `${i.name} (×${i.quantity})`).join(', ')}
           </div>
           <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-light); padding-top: 8px;">
-            <span style="font-size: var(--font-xs); font-weight: 700;">Total: ${formatCurrency(o.totals.total)}</span>
+            <span style="font-size: var(--font-xs); font-weight: 700;">Total: ${formatCurrency(o.totals ? o.totals.total : (o.total || 0))}</span>
             <button class="btn-secondary" style="padding: 4px 10px; font-size: 11px;" onclick="renderOrderConfirmationFromHistory(${idx})">
               View Receipt
             </button>
@@ -1085,7 +1064,7 @@ function clearOrdersHistory() {
   showToast('Order history cleared.', 'info');
 }
 
-// --- Reset All Demo Data (Stock, Cart, Settings) ---
+// Reset Data
 
 function resetAllDemoData() {
   if (!confirm('Reset catalog stock to original 10 items in LKR, empty shopping basket, and reset demo data?')) {
@@ -1110,7 +1089,6 @@ function resetAllFilters() {
   State.inStockOnly = false;
   State.sortBy = 'featured';
 
-  // Update DOM controls
   const searchInput = document.getElementById('search-input');
   if (searchInput) searchInput.value = '';
 
@@ -1136,7 +1114,7 @@ function resetAllFilters() {
   showToast('Filters reset to default.', 'info');
 }
 
-// --- Modal & Drawer Helpers ---
+// Modal & Drawer Helpers
 
 function openModal(modalId) {
   const modal = document.getElementById(modalId);
@@ -1171,7 +1149,7 @@ function closeDrawer(drawerId) {
   const drawer = document.getElementById(drawerId);
   const backdrop = document.getElementById('modal-backdrop');
   if (drawer) drawer.classList.remove('active');
-  const anyModalActive = document.querySelector('.modal-window.active');
+  const anyModalActive = document.querySelector('.modal-window.active, .basket-drawer.active');
   if (!anyModalActive && backdrop) {
     backdrop.classList.remove('active');
   }
@@ -1184,7 +1162,7 @@ function closeAllModalsAndDrawers() {
   if (backdrop) backdrop.classList.remove('active');
 }
 
-// --- Toast System ---
+// Toast System
 
 let toastTimeout;
 function showToast(message, type = 'info', showUndo = false) {
@@ -1210,21 +1188,18 @@ function showToast(message, type = 'info', showUndo = false) {
   }, 4000);
 }
 
-// --- Event Listeners Wiring ---
+// Event Listeners
 
 function initEventListeners() {
-  // Backdrop click closes modals & drawers
   const backdrop = document.getElementById('modal-backdrop');
   if (backdrop) {
     backdrop.addEventListener('click', closeAllModalsAndDrawers);
   }
 
-  // Basket Drawer Trigger Buttons
   document.querySelectorAll('.btn-open-basket').forEach(btn => {
     btn.addEventListener('click', () => openDrawer('basket-drawer'));
   });
 
-  // Search Input live typing with debouncing
   const searchInput = document.getElementById('search-input');
   const clearBtn = document.getElementById('search-clear-btn');
   if (searchInput) {
@@ -1245,7 +1220,6 @@ function initEventListeners() {
     });
   }
 
-  // Category select in search form
   const searchCategorySelect = document.getElementById('search-category-select');
   if (searchCategorySelect) {
     searchCategorySelect.addEventListener('change', (e) => {
@@ -1257,7 +1231,6 @@ function initEventListeners() {
     });
   }
 
-  // Subnav Category Pills
   document.querySelectorAll('.subnav-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const cat = btn.getAttribute('data-category-target');
@@ -1268,7 +1241,6 @@ function initEventListeners() {
     });
   });
 
-  // Price range slider (in LKR: min 5000, max 80000, step 1000)
   const priceSlider = document.getElementById('price-range-slider');
   const priceDisplay = document.getElementById('price-val-display');
   if (priceSlider) {
@@ -1279,7 +1251,6 @@ function initEventListeners() {
     });
   }
 
-  // In Stock Checkbox
   const chkInStock = document.getElementById('chk-instock-only');
   if (chkInStock) {
     chkInStock.addEventListener('change', (e) => {
@@ -1288,7 +1259,6 @@ function initEventListeners() {
     });
   }
 
-  // Sort dropdown
   const sortSelect = document.getElementById('sort-select');
   if (sortSelect) {
     sortSelect.addEventListener('change', (e) => {
@@ -1297,7 +1267,6 @@ function initEventListeners() {
     });
   }
 
-  // Accessibility Controls inside Settings Modal
   document.querySelectorAll('.btn-theme-opt').forEach(btn => {
     btn.addEventListener('click', () => applyTheme(btn.dataset.theme));
   });
@@ -1326,7 +1295,7 @@ function initEventListeners() {
   }
 }
 
-// --- Keyboard Navigation & Accessibility Shortcuts ---
+// Keyboard Navigation & Shortcuts
 
 function setupKeyboardShortcuts() {
   document.addEventListener('keydown', (e) => {
@@ -1337,7 +1306,7 @@ function setupKeyboardShortcuts() {
       return;
     }
 
-    if (isEditing) return;
+    if (isEditing || e.ctrlKey || e.metaKey || e.altKey) return;
 
     if (e.key === '?' || (e.shiftKey && e.key === '/')) {
       e.preventDefault();
@@ -1358,7 +1327,7 @@ function setupKeyboardShortcuts() {
   });
 }
 
-// --- Browser LocalStorage Live Inspector ---
+// Storage Inspector
 
 function openStorageInspector(activeTab = 'cart') {
   const container = document.getElementById('storage-inspector-tabs');
