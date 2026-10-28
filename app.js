@@ -607,7 +607,7 @@ function openQuickView(productId) {
   modalBody.innerHTML = `
     <div class="quick-view-grid">
       <div class="quick-view-img-box">
-        <img src="${product.image}" alt="${product.name}" style="max-height: 280px; width: 100%; object-fit: contain;">
+        <img src="${product.image}" alt="${product.name}" style="max-height: 280px; width: 100%; object-fit: cover; border-radius: var(--radius-md);">
       </div>
       <div>
         <div class="product-meta">
