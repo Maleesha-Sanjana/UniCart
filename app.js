@@ -657,7 +657,7 @@ function openQuickView(productId) {
   openModal('quick-view-modal');
 }
 
-// --- Mock Checkout Process (4 Steps) ---
+// --- Checkout Process (4 Steps) ---
 
 function startCheckout() {
   if (State.cart.length === 0) {
@@ -737,7 +737,7 @@ function selectPaymentMethod(method) {
     cardDetails.style.display = 'none';
     altDetails.style.display = 'block';
     altDetails.textContent = method === 'paypal' 
-      ? 'You will be redirected to PayPal sandbox mock authorization on final order confirmation.' 
+      ? 'You will be redirected to PayPal sandbox authorization on final order confirmation.' 
       : 'You can pay in cash or via portable terminal upon arrival of order in Sri Lanka.';
   }
 }
@@ -820,7 +820,7 @@ function renderCheckoutReview() {
       <p style="font-size: var(--font-xs); color: var(--text-secondary);">
         ${State.checkout.paymentMethod === 'card' 
           ? `💳 Card: ${State.checkout.cardData ? State.checkout.cardData.maskedNumber : 'Ending in 4242'}`
-          : (State.checkout.paymentMethod === 'paypal' ? '🅿️ Mock PayPal Account' : '💵 Cash / Pay on Delivery')}
+          : (State.checkout.paymentMethod === 'paypal' ? '🅿️ PayPal Account' : '💵 Cash / Pay on Delivery')}
       </p>
     </div>
 
@@ -1033,7 +1033,7 @@ function openOrdersModal() {
         <div style="text-align: center; padding: 40px 20px;">
           <svg style="width: 48px; height: 48px; color: var(--text-muted); margin: 0 auto 12px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
           <h4>No Prior Orders Found</h4>
-          <p style="font-size: var(--font-xs); color: var(--text-muted); margin-top: 4px;">Any mock purchases completed in this browser session are persisted here in LocalStorage.</p>
+          <p style="font-size: var(--font-xs); color: var(--text-muted); margin-top: 4px;">Any purchases completed in this browser session are persisted here in LocalStorage.</p>
         </div>
       `;
     } else {

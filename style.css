@@ -1787,14 +1787,14 @@ ul, ol {
 /* Payment Method Selector Tabs */
 .payment-methods-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 1fr;
   gap: 12px;
   margin-bottom: 20px;
 }
 
 .payment-method-btn {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
   gap: 8px;

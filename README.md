@@ -13,7 +13,7 @@
 | :--- | :--- | :--- |
 | **Student 1 (Lead)** | `[Student 1 Name]` | Architecture, UI/UX Design System, Universal Design Standards (WCAG AAA) |
 | **Student 2** | `[Student 2 Name]` | Catalog Data Model, LocalStorage Engine, Dynamic Filter & Search System |
-| **Student 3** | `[Student 3 Name]` | Basket Management, Multi-step Mock Checkout, Payment Validation & Invoicing |
+| **Student 3** | `[Student 3 Name]` | Basket Management, Multi-step Checkout, Payment Validation & Invoicing |
 
 ---
 
@@ -21,7 +21,7 @@
 
 UniCart is a production-grade, highly accessible e-commerce platform designed along similar lines to industry leaders such as **Amazon**, **eBay**, and **Argos**, customized with **LKR (Sri Lankan Rupee)** pricing and **real commercial product photography**. The system has been developed strictly utilizing **HTML5, CSS3, and JavaScript only** without third-party frameworks, libraries, or build steps.
 
-All state transitions, catalog stocks, shopping basket operations, mock checkout orders, and accessibility preferences are managed persistently in the browser's **LocalStorage API**.
+All state transitions, catalog stocks, shopping basket operations, checkout orders, and accessibility preferences are managed persistently in the browser's **LocalStorage API**.
 
 ### Academic Specification Compliance Checklist:
 - [x] **HTML, CSS, JavaScript ONLY:** No React, Next.js, jQuery, or Tailwind CSS used. 100% pure client-side web technologies.
@@ -30,7 +30,7 @@ All state transitions, catalog stocks, shopping basket operations, mock checkout
 - [x] **Exactly 10 Products with Different Prices (LKR):** Catalog contains exactly 10 distinct products, each with a unique price in LKR, specifications, stock count, and real studio product photograph.
 - [x] **Exactly 3 Categories:** Divided into `Electronics` (4 items), `Clothing` (3 items), and `Food` (3 items).
 - [x] **Shopping Basket Operations:** Add products in stock, live quantity increment/decrement (+/-), stock limit bounds enforcement, item removal with undo option, and free delivery progress tracking.
-- [x] **Mock Checkout & Payment Process:** 4-step wizard (Shipping details with 1-click Sri Lankan demo autofill, Interactive Card/PayPal/COD payment selection with live credit card visualizer, Order Review, and Printable Confirmation Invoice with unique Order IDs).
+- [x] **Checkout & Payment Process:** 4-step wizard (Shipping details, Interactive Card payment selection with live credit card visualizer, Order Review, and Printable Confirmation Invoice with unique Order IDs).
 - [x] **Strict Directory Constraint (No Subfolders):** All HTML, CSS, JavaScript, real image assets, and documentation are placed directly in the **root folder** without any subfolders or subdirectories, ensuring seamless LMS zip submission and execution.
 
 ---
@@ -97,7 +97,7 @@ All persistent data structures are stored under versioned keys in the browser's 
 |:---|:---|:---:|:---|
 | `unicart_products_realimg_v3` | Product catalog with live stock levels in LKR | Array of Objects | `[{ id: 1, name: "...", price: 58500, stock: 12, image: "product-1.jpg" }]` |
 | `unicart_cart_realimg_v3` | Current shopping basket items | Array of Objects | `[{ productId: 1, quantity: 2 }]` |
-| `unicart_orders_realimg_v3` | History of placed mock orders | Array of Objects | `[{ orderId: "UC-2026-92810", total: 58500, ... }]` |
+| `unicart_orders_realimg_v3` | History of placed orders | Array of Objects | `[{ orderId: "UC-2026-92810", total: 58500, ... }]` |
 | `unicart_settings_v3` | User accessibility settings | Object | `{ theme: "light", fontSize: "base", dyslexicFont: false }` |
 | `unicart_applied_promo_realimg_v3`| Active promotional voucher | Object | `{ code: "UNICART10", discount: 0.10 }` |
 

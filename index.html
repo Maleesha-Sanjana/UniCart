@@ -266,7 +266,7 @@
         </div>
         <div class="ud-card">
           <h4>2. Flexibility in Use</h4>
-          <p>Full keyboard navigation (shortcuts '?', 'C', '/'), live multi-criteria filtering, price range slider, and multiple mock payment choices.</p>
+          <p>Full keyboard navigation (shortcuts '?', 'C', '/'), live multi-criteria filtering, price range slider, and secure payment processing.</p>
         </div>
         <div class="ud-card">
           <h4>3. Simple &amp; Intuitive</h4>
@@ -324,7 +324,7 @@
       <div class="empty-basket-view" id="basket-empty-view">
         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
         <h3>Your basket is empty</h3>
-        <p>Explore our 10 products and add items to begin your mock shopping journey.</p>
+        <p>Explore our 10 products and add items to begin your shopping journey.</p>
         <button class="btn-primary" onclick="closeDrawer('basket-drawer')">Start Shopping</button>
       </div>
 
@@ -396,7 +396,7 @@
     </div>
   </div>
 
-  <!-- Mock Checkout Modal (4-Step Wizard) -->
+  <!-- Checkout Modal (4-Step Wizard) -->
   <div 
     class="modal-window checkout-modal" 
     id="checkout-modal" 
@@ -404,7 +404,7 @@
     aria-modal="true" 
     aria-labelledby="checkout-wizard-title">
     <div class="modal-header">
-      <h2 id="checkout-wizard-title">Secure Mock Checkout (LKR)</h2>
+      <h2 id="checkout-wizard-title">Secure Checkout (LKR)</h2>
       <button class="btn-close-drawer" onclick="closeModal('checkout-modal')" aria-label="Close Checkout">✕</button>
     </div>
 
@@ -476,20 +476,12 @@
 
       <!-- STEP 2: Payment Method Form with Live Card Preview -->
       <div id="checkout-pane-step-2" class="checkout-pane" style="display: none;">
-        <h3 style="font-size: var(--font-base); font-weight: 800; margin-bottom: 12px;">Select Mock Payment Method</h3>
+        <h3 style="font-size: var(--font-base); font-weight: 800; margin-bottom: 12px;">Select Payment Method</h3>
 
         <div class="payment-methods-grid">
           <button type="button" class="payment-method-btn active" data-method="card" onclick="selectPaymentMethod('card')">
             <span style="font-size: 20px;">💳</span>
             <span>Credit / Debit Card</span>
-          </button>
-          <button type="button" class="payment-method-btn" data-method="paypal" onclick="selectPaymentMethod('paypal')">
-            <span style="font-size: 20px;">🅿️</span>
-            <span>Mock PayPal</span>
-          </button>
-          <button type="button" class="payment-method-btn" data-method="cod" onclick="selectPaymentMethod('cod')">
-            <span style="font-size: 20px;">💵</span>
-            <span>Cash on Delivery</span>
           </button>
         </div>
 
@@ -590,7 +582,7 @@
         <div style="margin-top: 16px;">
           <label class="custom-checkbox">
             <input type="checkbox" id="chk-terms-agree" checked>
-            <span>I confirm this mock purchase in LKR and adhere to the Universal Design accessibility standards.</span>
+            <span>I confirm this purchase in LKR and adhere to the Universal Design accessibility standards.</span>
           </label>
         </div>
 
