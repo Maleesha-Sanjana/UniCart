@@ -1,10 +1,6 @@
 /**
  * UniCart E-Commerce Platform
  * Product Catalog Data & LocalStorage Seed
- * Exactly 10 Products across 3 Categories ("Electronics", "Clothing", "Food")
- * Currency: Sri Lankan Rupee (LKR)
- * Real Photographic Images (product-1.jpg to product-10.jpg in root folder)
- * All files in root folder for submission.
  */
 
 const DEFAULT_PRODUCTS = [
@@ -225,7 +221,7 @@ const DEFAULT_PRODUCTS = [
   }
 ];
 
-// LocalStorage Keys (v3 for Real Images & LKR)
+// LocalStorage Keys
 const STORAGE_KEYS = {
   PRODUCTS: "unicart_products_realimg_v3",
   CART: "unicart_cart_realimg_v3",
@@ -243,8 +239,7 @@ function formatCurrency(amount) {
 }
 
 /**
- * Initializes and retrieves products from LocalStorage.
- * If not present, populates with DEFAULT_PRODUCTS (exactly 10 products).
+ * Initializes and retrieves products from LocalStorage
  */
 function getProducts() {
   try {
@@ -258,9 +253,9 @@ function getProducts() {
   } catch (e) {
     console.warn("Error reading products from localStorage", e);
   }
-  // If not stored or corrupted, seed default 10 products
-  saveProducts(DEFAULT_PRODUCTS);
-  return DEFAULT_PRODUCTS;
+  const freshDefaults = JSON.parse(JSON.stringify(DEFAULT_PRODUCTS));
+  saveProducts(freshDefaults);
+  return freshDefaults;
 }
 
 /**
@@ -275,9 +270,10 @@ function saveProducts(productsArray) {
 }
 
 /**
- * Resets products catalog to original 10 products with default stock
+ * Resets products catalog to defaults
  */
 function resetProducts() {
-  saveProducts(DEFAULT_PRODUCTS);
-  return DEFAULT_PRODUCTS;
+  const freshDefaults = JSON.parse(JSON.stringify(DEFAULT_PRODUCTS));
+  saveProducts(freshDefaults);
+  return freshDefaults;
 }

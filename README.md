@@ -2,7 +2,7 @@
 
 **Program:** BSc (Hons) Software Engineering  
 **Level:** Year 3  
-**Module Task:** Task 1 – Application Development (40%)  
+**Module:** Web Application Development  
 **Group Size:** Three Students (03)  
 **Currency:** Sri Lankan Rupee (LKR)  
 
@@ -13,7 +13,7 @@
 | :--- | :--- | :--- |
 | **Student 1 (Lead)** | `[Student 1 Name]` | Architecture, UI/UX Design System, Universal Design Standards (WCAG AAA) |
 | **Student 2** | `[Student 2 Name]` | Catalog Data Model, LocalStorage Engine, Dynamic Filter & Search System |
-| **Student 3** | `[Student 3 Name]` | Basket Management, Multi-step Mock Checkout, Payment Validation & Invoicing |
+| **Student 3** | `[Student 3 Name]` | Basket Management, Multi-step Checkout, Payment Validation & Invoicing |
 
 ---
 
@@ -21,7 +21,7 @@
 
 UniCart is a production-grade, highly accessible e-commerce platform designed along similar lines to industry leaders such as **Amazon**, **eBay**, and **Argos**, customized with **LKR (Sri Lankan Rupee)** pricing and **real commercial product photography**. The system has been developed strictly utilizing **HTML5, CSS3, and JavaScript only** without third-party frameworks, libraries, or build steps.
 
-All state transitions, catalog stocks, shopping basket operations, mock checkout orders, and accessibility preferences are managed persistently in the browser's **LocalStorage API**.
+All state transitions, catalog stocks, shopping basket operations, checkout orders, and accessibility preferences are managed persistently in the browser's **LocalStorage API**.
 
 ### Academic Specification Compliance Checklist:
 - [x] **HTML, CSS, JavaScript ONLY:** No React, Next.js, jQuery, or Tailwind CSS used. 100% pure client-side web technologies.
@@ -30,7 +30,7 @@ All state transitions, catalog stocks, shopping basket operations, mock checkout
 - [x] **Exactly 10 Products with Different Prices (LKR):** Catalog contains exactly 10 distinct products, each with a unique price in LKR, specifications, stock count, and real studio product photograph.
 - [x] **Exactly 3 Categories:** Divided into `Electronics` (4 items), `Clothing` (3 items), and `Food` (3 items).
 - [x] **Shopping Basket Operations:** Add products in stock, live quantity increment/decrement (+/-), stock limit bounds enforcement, item removal with undo option, and free delivery progress tracking.
-- [x] **Mock Checkout & Payment Process:** 4-step wizard (Shipping details with 1-click Sri Lankan demo autofill, Interactive Card/PayPal/COD payment selection with live credit card visualizer, Order Review, and Printable Confirmation Invoice with unique Order IDs).
+- [x] **Checkout & Payment Process:** 4-step wizard (Shipping details, Interactive Card payment selection with live credit card visualizer, Order Review, and Printable Confirmation Invoice with unique Order IDs).
 - [x] **Strict Directory Constraint (No Subfolders):** All HTML, CSS, JavaScript, real image assets, and documentation are placed directly in the **root folder** without any subfolders or subdirectories, ensuring seamless LMS zip submission and execution.
 
 ---
@@ -78,7 +78,7 @@ The design of UniCart explicitly adheres to the established Universal Design sta
 5. **Tolerance for Error:**
    - Quantity bounds checking prevents adding items beyond available physical stock.
    - Item removal provides an immediate **"Undo"** toast notification.
-   - Input validation with descriptive error guidance and a **"1-Click Auto-Fill Demo Data"** button (with Sri Lankan address) to eliminate typing errors during evaluation.
+   - Robust input validation with descriptive error guidance and input masking for payment details.
 6. **Low Physical Effort:**
    - Sticky header provides immediate access to search, basket drawer, and accessibility preferences from anywhere on the page.
    - 1-click quick add-to-basket directly from the catalog.
@@ -97,7 +97,7 @@ All persistent data structures are stored under versioned keys in the browser's 
 |:---|:---|:---:|:---|
 | `unicart_products_realimg_v3` | Product catalog with live stock levels in LKR | Array of Objects | `[{ id: 1, name: "...", price: 58500, stock: 12, image: "product-1.jpg" }]` |
 | `unicart_cart_realimg_v3` | Current shopping basket items | Array of Objects | `[{ productId: 1, quantity: 2 }]` |
-| `unicart_orders_realimg_v3` | History of placed mock orders | Array of Objects | `[{ orderId: "UC-2026-92810", total: 58500, ... }]` |
+| `unicart_orders_realimg_v3` | History of placed orders | Array of Objects | `[{ orderId: "UC-2026-92810", total: 58500, ... }]` |
 | `unicart_settings_v3` | User accessibility settings | Object | `{ theme: "light", fontSize: "base", dyslexicFont: false }` |
 | `unicart_applied_promo_realimg_v3`| Active promotional voucher | Object | `{ code: "UNICART10", discount: 0.10 }` |
 
@@ -146,7 +146,7 @@ UniCart/
    - **Adding to Basket:** Click "Add to Basket" on any product. Notice the badge counter update and toast notification.
    - **Free Delivery:** Add items totaling over `LKR 15,000.00` to observe the free delivery unlock animation.
    - **Discount Code:** Open the basket drawer and enter `UNICART10` (or click the hero promo code card) to apply a 10% discount on LKR totals.
-   - **Checkout Wizard:** Click "Proceed to Checkout" in the basket. On Step 1, click **"1-Click Auto-Fill Demo Data"** to automatically populate Sri Lankan shipping information.
+   - **Checkout Wizard:** Click "Proceed to Checkout" in the basket. On Step 1, enter Sri Lankan shipping information.
    - **Interactive Payment:** On Step 2, observe the real-time Credit Card visualizer updates as details are entered.
    - **Order Confirmation & Invoicing:** On Step 3, confirm the order. Observe the stock reduction, generated invoice in LKR, and receipt printer dialog.
    - **Order History:** Click "My Orders" in the header to view persisted orders in `localStorage`.

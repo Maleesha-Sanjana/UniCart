@@ -1,13 +1,4 @@
-/* ==========================================================================
-   UniCart - Universal E-Commerce Web Application
-   CSS Design System & Stylesheet
-   Created with Universal Design Standards & WCAG AAA Accessibility
-   All files located in root directory as per assignment specification.
-   ========================================================================== */
-
-/* --- 1. CSS Custom Properties / Design Tokens --- */
 :root {
-  /* Color Palette - Default Light Theme */
   --bg-primary: #f8fafc;
   --bg-surface: #ffffff;
   --bg-surface-elevated: #ffffff;
@@ -23,7 +14,6 @@
   --border-medium: #cbd5e1;
   --border-focus: #3b82f6;
 
-  /* Brand Accents */
   --primary: #3b82f6;
   --primary-hover: #2563eb;
   --primary-light: #eff6ff;
@@ -41,7 +31,6 @@
   --info: #0284c7;
   --info-bg: #e0f2fe;
 
-  /* Typography Scaling */
   --font-family-base: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   --font-scale: 1;
   --font-xs: calc(0.75rem * var(--font-scale));
@@ -55,13 +44,11 @@
   --line-height-base: 1.5;
   --letter-spacing-base: normal;
 
-  /* Shadows */
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
   --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
 
-  /* Layout & Sizing */
   --radius-sm: 6px;
   --radius-md: 10px;
   --radius-lg: 16px;
@@ -73,13 +60,12 @@
   --topbar-height: 38px;
   --touch-target-min: 44px;
 
-  /* Transitions */
   --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* --- Dark Theme --- */
+/* Dark Theme */
 [data-theme="dark"] {
   --bg-primary: #090d16;
   --bg-surface: #111827;
@@ -104,7 +90,7 @@
   --shadow-lg: 0 10px 20px rgba(0, 0, 0, 0.5);
 }
 
-/* --- High Contrast Theme (WCAG AAA Universal Standard) --- */
+/* High Contrast Theme */
 [data-theme="high-contrast"] {
   --bg-primary: #000000;
   --bg-surface: #0a0a0a;
@@ -113,7 +99,7 @@
   --bg-overlay: rgba(0, 0, 0, 0.95);
 
   --text-primary: #ffffff;
-  --text-secondary: #fef08a; /* Bright accessible yellow */
+  --text-secondary: #fef08a;
   --text-muted: #e2e8f0;
   --text-inverse: #000000;
 
@@ -144,17 +130,27 @@
   outline-color: #facc15 !important;
 }
 
-/* --- Dyslexia-Friendly Typography --- */
+/* Dyslexia-Friendly Typography */
 [data-font="dyslexic"] {
   --font-family-base: 'OpenDyslexic', 'Comic Sans MS', 'Trebuchet MS', sans-serif !important;
   --line-height-base: 1.8 !important;
   --letter-spacing-base: 0.06em !important;
 }
 
-/* --- Reduced Motion --- */
-[data-motion="reduced"],
+/* Reduced Motion */
+[data-motion="reduced"] *,
+[data-motion="reduced"] *::before,
+[data-motion="reduced"] *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  *, ::before, ::after {
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
@@ -162,8 +158,10 @@
   }
 }
 
-/* --- 2. Base & Reset --- */
-*, *::before, *::after {
+/* Base & Reset */
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -173,6 +171,7 @@ html {
   font-size: 16px;
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
+  overflow-x: hidden;
 }
 
 body {
@@ -189,12 +188,16 @@ body {
   transition: background-color var(--transition-normal), color var(--transition-normal);
 }
 
-img, svg {
+img,
+svg {
   display: block;
   max-width: 100%;
 }
 
-button, input, select, textarea {
+button,
+input,
+select,
+textarea {
   font: inherit;
   color: inherit;
 }
@@ -215,12 +218,12 @@ a:hover {
   text-decoration: underline;
 }
 
-ul, ol {
+ul,
+ol {
   list-style: none;
 }
 
-/* --- 3. Universal Accessibility Utilities --- */
-/* Skip to content link */
+/* Accessibility Utilities */
 .skip-link {
   position: absolute;
   top: -60px;
@@ -240,14 +243,12 @@ ul, ol {
   top: 15px;
 }
 
-/* Accessible Focus Outlines */
 :focus-visible {
   outline: 3px solid var(--border-focus);
   outline-offset: 3px;
   border-radius: var(--radius-sm);
 }
 
-/* Visually Hidden for Screen Readers */
 .sr-only {
   position: absolute;
   width: 1px;
@@ -260,7 +261,6 @@ ul, ol {
   border-width: 0;
 }
 
-/* Container */
 .container {
   width: 100%;
   max-width: var(--max-width);
@@ -270,7 +270,7 @@ ul, ol {
   padding-right: 20px;
 }
 
-/* --- 4. Announcement Bar --- */
+/* Announcement Bar */
 .announcement-bar {
   background: linear-gradient(90deg, #1e293b, #0f172a);
   color: #e2e8f0;
@@ -312,7 +312,7 @@ ul, ol {
   color: #ffffff;
 }
 
-/* --- 5. Main Header & Navigation --- */
+/* Main Header & Navigation */
 .site-header {
   position: sticky;
   top: 0;
@@ -331,7 +331,6 @@ ul, ol {
   height: var(--header-height);
 }
 
-/* Logo */
 .logo-link {
   display: flex;
   align-items: center;
@@ -345,7 +344,6 @@ ul, ol {
   width: auto;
 }
 
-/* Header Search Form */
 .header-search {
   flex: 1;
   max-width: 600px;
@@ -410,7 +408,6 @@ ul, ol {
   display: flex;
 }
 
-/* Header Action Controls */
 .header-actions {
   display: flex;
   align-items: center;
@@ -441,7 +438,6 @@ ul, ol {
   height: 20px;
 }
 
-/* Basket Button with dynamic Badge */
 .basket-btn {
   background: var(--primary);
   color: #ffffff;
@@ -476,7 +472,6 @@ ul, ol {
   margin-left: 2px;
 }
 
-/* Secondary Category Subnav */
 .subnav-bar {
   background-color: var(--bg-surface);
   border-top: 1px solid var(--border-light);
@@ -527,7 +522,7 @@ ul, ol {
   color: #ffffff;
 }
 
-/* --- 6. Hero Banner --- */
+/* Hero Banner */
 .hero-banner {
   background: linear-gradient(135deg, #1e1b4b 0%, #312e81 40%, #1e3a8a 100%);
   color: #ffffff;
@@ -643,7 +638,6 @@ ul, ol {
   background: rgba(255, 255, 255, 0.22);
 }
 
-/* Hero Promo Code Card */
 .hero-promo-card {
   background: rgba(255, 255, 255, 0.08);
   border: 1px dashed rgba(255, 255, 255, 0.3);
@@ -696,7 +690,7 @@ ul, ol {
   margin-top: 8px;
 }
 
-/* --- 7. Catalog Controls & Filters Bar --- */
+/* Catalog Controls & Filters */
 .controls-section {
   background: var(--bg-surface);
   border: 1px solid var(--border-light);
@@ -714,14 +708,14 @@ ul, ol {
   gap: 20px;
 }
 
-.controls-left, .controls-right {
+.controls-left,
+.controls-right {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 16px;
 }
 
-/* Filter Labels & Inputs */
 .filter-group {
   display: flex;
   align-items: center;
@@ -751,7 +745,6 @@ ul, ol {
   border-color: var(--primary);
 }
 
-/* Price Range Slider */
 .price-slider-group {
   display: flex;
   align-items: center;
@@ -771,7 +764,6 @@ ul, ol {
   min-width: 60px;
 }
 
-/* Custom Checkbox Toggle */
 .custom-checkbox {
   display: flex;
   align-items: center;
@@ -789,7 +781,6 @@ ul, ol {
   cursor: pointer;
 }
 
-/* Count & Reset */
 .results-count {
   font-size: var(--font-sm);
   font-weight: 700;
@@ -808,7 +799,7 @@ ul, ol {
   color: var(--danger);
 }
 
-/* --- 8. Product Cards Grid --- */
+/* Product Cards Grid */
 .products-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -834,7 +825,6 @@ ul, ol {
   border-color: var(--border-medium);
 }
 
-/* Card Header Badges */
 .card-badges {
   position: absolute;
   top: 14px;
@@ -854,18 +844,56 @@ ul, ol {
   letter-spacing: 0.5px;
 }
 
-.badge-bestseller { background: #f59e0b; color: #ffffff; }
-.badge-trending { background: #8b5cf6; color: #ffffff; }
-.badge-lowstock { background: #ef4444; color: #ffffff; }
-.badge-amazonchoice { background: #0284c7; color: #ffffff; }
-.badge-ecofriendly { background: #10b981; color: #ffffff; }
-.badge-premium { background: #1e293b; color: #ffffff; }
-.badge-dailyessential { background: #64748b; color: #ffffff; }
-.badge-staffpick { background: #d97706; color: #ffffff; }
-.badge-organic { background: #059669; color: #ffffff; }
-.badge-gourmet { background: #65a30d; color: #ffffff; }
+.badge-bestseller {
+  background: #f59e0b;
+  color: #ffffff;
+}
 
-/* Image Container */
+.badge-trending {
+  background: #8b5cf6;
+  color: #ffffff;
+}
+
+.badge-lowstock {
+  background: #ef4444;
+  color: #ffffff;
+}
+
+.badge-amazonchoice {
+  background: #0284c7;
+  color: #ffffff;
+}
+
+.badge-ecofriendly {
+  background: #10b981;
+  color: #ffffff;
+}
+
+.badge-premium {
+  background: #1e293b;
+  color: #ffffff;
+}
+
+.badge-dailyessential {
+  background: #64748b;
+  color: #ffffff;
+}
+
+.badge-staffpick {
+  background: #d97706;
+  color: #ffffff;
+}
+
+.badge-organic {
+  background: #059669;
+  color: #ffffff;
+}
+
+.badge-gourmet {
+  background: #65a30d;
+  color: #ffffff;
+}
+
 .product-image-box {
   width: 100%;
   aspect-ratio: 4 / 3;
@@ -890,7 +918,6 @@ ul, ol {
   transform: scale(1.05);
 }
 
-/* Quick View Overlay Button */
 .quick-view-btn {
   position: absolute;
   bottom: 10px;
@@ -914,7 +941,6 @@ ul, ol {
   transform: translateX(-50%) translateY(0);
 }
 
-/* Product Meta */
 .product-meta {
   display: flex;
   align-items: center;
@@ -943,7 +969,6 @@ ul, ol {
   color: #f59e0b;
 }
 
-/* Product Title */
 .product-title {
   font-size: var(--font-base);
   font-weight: 700;
@@ -968,7 +993,6 @@ ul, ol {
   overflow: hidden;
 }
 
-/* Pricing */
 .product-pricing {
   display: flex;
   align-items: baseline;
@@ -997,7 +1021,6 @@ ul, ol {
   border-radius: var(--radius-sm);
 }
 
-/* Stock Status */
 .stock-indicator {
   margin-bottom: 14px;
 }
@@ -1017,14 +1040,29 @@ ul, ol {
   border-radius: var(--radius-full);
 }
 
-.in-stock .stock-dot { background: var(--success); }
-.in-stock .stock-text { color: var(--success); }
+.in-stock .stock-dot {
+  background: var(--success);
+}
 
-.low-stock .stock-dot { background: var(--warning); }
-.low-stock .stock-text { color: #b45309; }
+.in-stock .stock-text {
+  color: var(--success);
+}
 
-.out-of-stock .stock-dot { background: var(--danger); }
-.out-of-stock .stock-text { color: var(--danger); }
+.low-stock .stock-dot {
+  background: var(--warning);
+}
+
+.low-stock .stock-text {
+  color: #b45309;
+}
+
+.out-of-stock .stock-dot {
+  background: var(--danger);
+}
+
+.out-of-stock .stock-text {
+  color: var(--danger);
+}
 
 .stock-bar {
   width: 100%;
@@ -1040,11 +1078,18 @@ ul, ol {
   transition: width var(--transition-normal);
 }
 
-.in-stock .stock-bar-fill { background: var(--success); }
-.low-stock .stock-bar-fill { background: var(--warning); }
-.out-of-stock .stock-bar-fill { background: var(--danger); }
+.in-stock .stock-bar-fill {
+  background: var(--success);
+}
 
-/* Card Action Area */
+.low-stock .stock-bar-fill {
+  background: var(--warning);
+}
+
+.out-of-stock .stock-bar-fill {
+  background: var(--danger);
+}
+
 .card-actions {
   margin-top: auto;
   display: flex;
@@ -1106,7 +1151,6 @@ ul, ol {
   height: 18px;
 }
 
-/* Empty State */
 .catalog-empty {
   grid-column: 1 / -1;
   text-align: center;
@@ -1133,7 +1177,7 @@ ul, ol {
   margin-bottom: 20px;
 }
 
-/* --- 9. Universal Design Features Section --- */
+/* Universal Design Features */
 .ud-principles-banner {
   background: var(--bg-surface);
   border: 1px solid var(--border-light);
@@ -1190,8 +1234,7 @@ ul, ol {
   line-height: 1.4;
 }
 
-/* --- 10. Drawer & Modals System --- */
-/* Backdrop Overlay */
+/* Drawer & Modals System */
 .modal-backdrop {
   position: fixed;
   inset: 0;
@@ -1208,7 +1251,6 @@ ul, ol {
   opacity: 1;
 }
 
-/* Basket Side-Drawer (Slide-Over) */
 .basket-drawer {
   position: fixed;
   top: 0;
@@ -1263,7 +1305,6 @@ ul, ol {
   color: var(--danger);
 }
 
-/* Free Shipping Meter */
 .shipping-meter-box {
   padding: 12px 20px;
   background: var(--bg-subtle);
@@ -1293,7 +1334,6 @@ ul, ol {
   transition: width var(--transition-normal);
 }
 
-/* Basket Items Scroll Area */
 .drawer-body {
   flex: 1;
   overflow-y: auto;
@@ -1337,7 +1377,6 @@ ul, ol {
   margin-bottom: 8px;
 }
 
-/* Stepper Controls */
 .quantity-stepper {
   display: inline-flex;
   align-items: center;
@@ -1400,7 +1439,6 @@ ul, ol {
   text-decoration: underline;
 }
 
-/* Basket Drawer Footer */
 .drawer-footer {
   padding: 20px;
   border-top: 1px solid var(--border-light);
@@ -1494,7 +1532,6 @@ ul, ol {
   color: var(--danger);
 }
 
-/* Empty Basket State in Drawer */
 .empty-basket-view {
   text-align: center;
   padding: 50px 20px;
@@ -1518,7 +1555,7 @@ ul, ol {
   margin-bottom: 24px;
 }
 
-/* --- 11. Modal Dialogs (Universal Center, Quick View, Checkout) --- */
+/* Modals & Dialogs */
 .modal-window {
   position: fixed;
   top: 50%;
@@ -1572,7 +1609,7 @@ ul, ol {
   background: var(--bg-subtle);
 }
 
-/* --- 12. Checkout Modal & Multi-Step Wizard --- */
+/* Checkout Modal */
 .checkout-modal {
   max-width: 820px;
 }
@@ -1640,7 +1677,6 @@ ul, ol {
   color: var(--primary);
 }
 
-/* Form Styles */
 .form-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1693,11 +1729,10 @@ ul, ol {
   display: none;
 }
 
-.form-input.error + .form-error-msg {
+.form-input.error+.form-error-msg {
   display: block;
 }
 
-/* Autofill Demo Button */
 .btn-autofill-demo {
   display: inline-flex;
   align-items: center;
@@ -1717,7 +1752,6 @@ ul, ol {
   color: #ffffff;
 }
 
-/* Credit Card Live Preview Widget */
 .card-preview-box {
   background: linear-gradient(135deg, #1e293b, #0f172a);
   border-radius: var(--radius-lg);
@@ -1784,17 +1818,16 @@ ul, ol {
   font-weight: 700;
 }
 
-/* Payment Method Selector Tabs */
 .payment-methods-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 1fr;
   gap: 12px;
   margin-bottom: 20px;
 }
 
 .payment-method-btn {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
   gap: 8px;
@@ -1818,7 +1851,6 @@ ul, ol {
   color: var(--primary);
 }
 
-/* Order Confirmation Success Screen */
 .order-success-view {
   text-align: center;
   padding: 20px;
@@ -1880,7 +1912,7 @@ ul, ol {
   margin-bottom: 12px;
 }
 
-/* --- 13. Accessibility Settings Modal Layout --- */
+/* Accessibility Settings Modal */
 .a11y-control-row {
   display: flex;
   align-items: center;
@@ -1944,7 +1976,7 @@ ul, ol {
   color: #ffffff;
 }
 
-/* --- 14. Quick View Modal Specs --- */
+/* Quick View Modal */
 .quick-view-grid {
   display: grid;
   grid-template-columns: 1fr 1.2fr;
@@ -1968,7 +2000,8 @@ ul, ol {
   margin-bottom: 16px;
 }
 
-.quick-view-specs-table th, .quick-view-specs-table td {
+.quick-view-specs-table th,
+.quick-view-specs-table td {
   padding: 8px 10px;
   border-bottom: 1px solid var(--border-light);
   text-align: left;
@@ -1984,7 +2017,7 @@ ul, ol {
   font-weight: 600;
 }
 
-/* --- 15. Toast Notifications --- */
+/* Toast Notifications */
 .toast-container {
   position: fixed;
   bottom: 24px;
@@ -2021,9 +2054,17 @@ ul, ol {
   opacity: 1;
 }
 
-.toast-item.toast-success { border-left-color: var(--success); }
-.toast-item.toast-danger { border-left-color: var(--danger); }
-.toast-item.toast-warning { border-left-color: var(--warning); }
+.toast-item.toast-success {
+  border-left-color: var(--success);
+}
+
+.toast-item.toast-danger {
+  border-left-color: var(--danger);
+}
+
+.toast-item.toast-warning {
+  border-left-color: var(--warning);
+}
 
 .toast-undo-btn {
   font-size: var(--font-xs);
@@ -2033,7 +2074,7 @@ ul, ol {
   margin-left: auto;
 }
 
-/* --- 16. Site Footer --- */
+/* Site Footer */
 .site-footer {
   margin-top: auto;
   background: var(--bg-surface);
@@ -2080,7 +2121,6 @@ ul, ol {
   color: var(--text-muted);
 }
 
-/* Reset Demo Data Button */
 .btn-footer-reset {
   font-size: var(--font-xs);
   color: var(--danger);
@@ -2097,59 +2137,416 @@ ul, ol {
   color: #ffffff;
 }
 
-/* --- 17. Responsive Media Queries --- */
+/* Responsive Media Queries */
 @media (max-width: 900px) {
   .hero-grid {
     grid-template-columns: 1fr;
+    gap: 24px;
   }
+
   .quick-view-grid {
     grid-template-columns: 1fr;
+    gap: 20px;
   }
+
   .footer-grid {
     grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  .products-grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 20px;
+  }
+
+  .controls-grid {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+  }
+
+  .controls-left,
+  .controls-right {
+    width: 100%;
+    justify-content: space-between;
   }
 }
 
 @media (max-width: 680px) {
+  .container {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .announcement-bar {
+    flex-direction: column;
+    gap: 6px;
+    padding: 8px 12px;
+    text-align: center;
+  }
+
+  .announcement-bar .quick-links {
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
   .header-main {
     flex-wrap: wrap;
     height: auto;
-    padding: 12px 0;
+    padding: 10px 0;
+    gap: 10px;
   }
+
+  .logo-link {
+    min-width: auto;
+  }
+
+  .logo-link svg {
+    width: 140px;
+    height: 34px;
+  }
+
+  .header-actions {
+    gap: 8px;
+    margin-left: auto;
+  }
+
+  .header-actions .btn-icon-text {
+    padding: 7px 10px;
+    font-size: var(--font-xs);
+    gap: 6px;
+  }
+
   .header-search {
     order: 3;
     max-width: 100%;
     width: 100%;
+    margin-top: 2px;
   }
+
+  .search-category-select {
+    padding: 8px 10px;
+    font-size: var(--font-xs);
+    max-width: 110px;
+  }
+
+  .search-input {
+    padding: 8px 36px 8px 12px;
+    font-size: var(--font-xs);
+  }
+
+  .subnav-list {
+    padding: 6px 0;
+    gap: 6px;
+  }
+
+  .subnav-btn {
+    padding: 6px 12px;
+    font-size: var(--font-xs);
+  }
+
+  .hero-banner {
+    padding: 24px 0 28px;
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+    margin-bottom: 20px;
+  }
+
+  .hero-content h1 {
+    font-size: 1.65rem;
+    line-height: 1.2;
+    margin-bottom: 10px;
+  }
+
+  .hero-content p {
+    font-size: var(--font-sm);
+    margin-bottom: 18px;
+  }
+
+  .hero-badges {
+    gap: 8px;
+    margin-bottom: 18px;
+  }
+
+  .hero-pill {
+    padding: 4px 10px;
+    font-size: 11px;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+  }
+
+  .hero-actions .btn-primary,
+  .hero-actions .btn-secondary {
+    width: 100%;
+  }
+
+  .hero-promo-card {
+    padding: 18px 14px;
+  }
+
+  .controls-section {
+    padding: 14px 14px;
+    margin-bottom: 24px;
+  }
+
+  .controls-left,
+  .controls-right {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    width: 100%;
+  }
+
+  .price-slider-group {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .price-slider-group input[type="range"] {
+    flex: 1;
+    margin: 0 10px;
+  }
+
+  .filter-group {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .filter-select {
+    flex: 1;
+    max-width: 65%;
+  }
+
+  .results-count {
+    text-align: center;
+    width: 100%;
+  }
+
+  .products-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    margin-bottom: 36px;
+  }
+
+  .quick-view-btn {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  .ud-principles-banner {
+    padding: 18px 14px;
+    margin-bottom: 28px;
+  }
+
+  .ud-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .ud-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .basket-drawer {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .drawer-header {
+    padding: 14px 16px;
+  }
+
+  .drawer-body {
+    padding: 14px 16px;
+  }
+
+  .basket-item {
+    grid-template-columns: 56px 1fr auto;
+    gap: 10px;
+  }
+
+  .basket-item-img {
+    width: 56px;
+    height: 56px;
+  }
+
+  .basket-item-info {
+    min-width: 0;
+  }
+
+  .drawer-footer {
+    padding: 14px 16px;
+  }
+
+  .modal-window {
+    width: 95%;
+    max-height: 94vh;
+    border-radius: var(--radius-lg);
+  }
+
+  .modal-header {
+    padding: 14px 16px;
+  }
+
+  .modal-header h2 {
+    font-size: var(--font-base);
+  }
+
+  .modal-body {
+    padding: 16px;
+  }
+
+  .modal-footer {
+    padding: 12px 16px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .modal-footer button {
+    flex: 1;
+    min-width: 120px;
+  }
+
+  .checkout-steps-bar::before {
+    left: 16px;
+    right: 16px;
+  }
+
+  .step-circle {
+    width: 28px;
+    height: 28px;
+    font-size: 11px;
+  }
+
+  .step-title {
+    font-size: 10px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
   .payment-methods-grid {
     grid-template-columns: 1fr;
   }
-  .form-grid {
-    grid-template-columns: 1fr;
+
+  .a11y-control-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
   }
+
+  .theme-options-group {
+    width: 100%;
+    display: flex;
+  }
+
+  .btn-theme-opt {
+    flex: 1;
+    text-align: center;
+    padding: 8px 6px;
+    font-size: 11px;
+  }
+
+  .font-size-group {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .btn-font-size {
+    flex: 1;
+    max-width: 50px;
+  }
+
+  .toast-container {
+    left: 14px;
+    right: 14px;
+    bottom: 16px;
+  }
+
+  .toast-item {
+    min-width: auto;
+    max-width: 100%;
+    width: 100%;
+  }
+
   .footer-grid {
     grid-template-columns: 1fr;
+    gap: 20px;
   }
-  .basket-drawer {
-    max-width: 100%;
-  }
-  .modal-window {
-    width: 96%;
-    padding: 12px;
+
+  .footer-bottom {
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
   }
 }
 
-/* --- 18. Print Media Styles (Clean Invoice Output) --- */
+@media (max-width: 480px) {
+  .header-actions .btn-icon-text span:not(.basket-badge):not(.basket-subtotal) {
+    display: none;
+  }
+
+  .header-actions .btn-icon-text {
+    padding: 8px 10px;
+  }
+
+  .basket-subtotal {
+    display: none;
+  }
+
+  .card-preview-number {
+    font-size: 14px;
+    letter-spacing: 1px;
+  }
+
+  .card-preview-box {
+    padding: 14px;
+  }
+
+  .card-preview-holder {
+    max-width: 150px;
+    font-size: 12px;
+  }
+
+  .card-preview-expiry {
+    font-size: 12px;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    font-size: var(--font-sm);
+    padding: 8px 16px;
+  }
+}
+
+/* Print Styles */
 @media print {
   body * {
     visibility: hidden;
   }
-  .site-header, .site-footer, .announcement-bar, .modal-backdrop, .hero-banner, .controls-section, .products-grid {
+
+  .site-header,
+  .site-footer,
+  .announcement-bar,
+  .modal-backdrop,
+  .hero-banner,
+  .controls-section,
+  .products-grid {
     display: none !important;
   }
-  #printable-receipt, #printable-receipt * {
+
+  #printable-receipt,
+  #printable-receipt * {
     visibility: visible;
   }
+
   #printable-receipt {
     position: absolute;
     left: 0;
