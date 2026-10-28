@@ -2,6 +2,7 @@
  * UniCart - Universal E-Commerce Application
  * Main Application Logic, State Management & Accessibility Controller
  * Pure Vanilla JavaScript (ES6+), LocalStorage Persistence
+ * Currency: Sri Lankan Rupee (LKR)
  * All files in root folder for submission.
  */
 
@@ -12,7 +13,7 @@ const State = {
   appliedPromo: null,
   activeCategory: 'All',
   searchQuery: '',
-  maxPrice: 250,
+  maxPrice: 80000,
   inStockOnly: false,
   sortBy: 'featured',
   lastRemovedItem: null,
@@ -46,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
   renderProducts();
   updateCartUI();
   setupKeyboardShortcuts();
-  announceToScreenReader('UniCart online store loaded. Press question mark for keyboard shortcuts.');
+  announceToScreenReader('UniCart online store loaded with prices in LKR. Press question mark for keyboard shortcuts.');
 });
 
 /**
@@ -92,7 +93,6 @@ function saveSettings() {
 function applyTheme(theme) {
   State.settings.theme = theme;
   document.documentElement.setAttribute('data-theme', theme);
-  // Update toggle buttons active state
   document.querySelectorAll('.btn-theme-opt').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.theme === theme);
   });
@@ -142,7 +142,7 @@ function applyReducedMotion(enabled) {
  */
 function speakText(text) {
   if (!('speechSynthesis' in window) || !State.settings.speechEnabled) return;
-  window.speechSynthesis.cancel(); // Stop any pending utterance
+  window.speechSynthesis.cancel();
   const utterance = new SpeechSynthesisUtterance(text);
   utterance.rate = 1.0;
   utterance.pitch = 1.0;
@@ -222,7 +222,7 @@ function renderProducts() {
     const stockClass = isOutOfStock ? 'out-of-stock' : (isLowStock ? 'low-stock' : 'in-stock');
     const stockText = isOutOfStock ? 'Out of Stock' : (isLowStock ? `Low Stock: Only ${p.stock} left!` : `In Stock: ${p.stock} available`);
     const badgeClass = `badge-${p.badge.toLowerCase().replace(/[^a-z]/g, '')}`;
-    const savings = (p.originalPrice - p.price).toFixed(2);
+    const savings = (p.originalPrice - p.price);
     const cartItem = State.cart.find(item => item.productId === p.id);
     const inCartQty = cartItem ? cartItem.quantity : 0;
     const remainingStock = p.stock - inCartQty;
@@ -252,9 +252,9 @@ function renderProducts() {
         <p class="product-desc">${p.shortDescription}</p>
 
         <div class="product-pricing">
-          <span class="current-price">$${p.price.toFixed(2)}</span>
-          <span class="original-price">$${p.originalPrice.toFixed(2)}</span>
-          <span class="savings-tag">Save $${savings}</span>
+          <span class="current-price">${formatCurrency(p.price)}</span>
+          <span class="original-price">${formatCurrency(p.originalPrice)}</span>
+          <span class="savings-tag">Save ${formatCurrency(savings)}</span>
         </div>
 
         <div class="stock-indicator ${stockClass}" aria-live="polite">
@@ -311,7 +311,7 @@ function updateCategoryCounts() {
 function readProductAloud(id) {
   const product = State.products.find(p => p.id === id);
   if (!product) return;
-  const speech = `${product.name}. Category: ${product.category}. Price: $${product.price.toFixed(2)}. ${product.stock > 0 ? `In stock: ${product.stock} units available.` : 'Currently out of stock.'} Description: ${product.shortDescription}`;
+  const speech = `${product.name}. Category: ${product.category}. Price: ${product.price.toLocaleString()} Sri Lankan Rupees. ${product.stock > 0 ? `In stock: ${product.stock} units available.` : 'Currently out of stock.'} Description: ${product.shortDescription}`;
   speakText(speech);
   showToast(`Reading: ${product.name}`, 'info');
 }
@@ -339,7 +339,7 @@ function addToCart(productId, quantity = 1) {
 
   saveCart();
   updateCartUI();
-  renderProducts(); // Refresh buttons with in-cart count
+  renderProducts();
 
   // Visual button feedback
   const btn = document.getElementById(`btn-add-${productId}`);
@@ -352,7 +352,7 @@ function addToCart(productId, quantity = 1) {
   }
 
   showToast(`Added "${product.name}" to your basket!`, 'success');
-  announceToScreenReader(`${product.name} added to basket. Basket total is now $${calculateCartTotals().total.toFixed(2)}`);
+  announceToScreenReader(`${product.name} added to basket. Basket total is now ${formatCurrency(calculateCartTotals().total)}`);
 }
 
 function updateCartQuantity(productId, delta) {
@@ -443,10 +443,10 @@ function calculateCartTotals() {
     }
   });
 
-  // Free shipping threshold = $50
-  const freeShippingThreshold = 50.00;
+  // Free shipping threshold = LKR 15,000.00
+  const freeShippingThreshold = 15000.00;
   const isFreeShipping = subtotal >= freeShippingThreshold || subtotal === 0;
-  const shipping = isFreeShipping ? 0 : 4.99;
+  const shipping = isFreeShipping ? 0 : 750.00;
 
   // Promo code discount
   let discountAmount = 0;
@@ -454,7 +454,7 @@ function calculateCartTotals() {
     discountAmount = subtotal * State.appliedPromo.discount;
   }
 
-  // Estimated Tax: 5%
+  // Estimated Tax / Service: 5%
   const taxableAmount = Math.max(0, subtotal - discountAmount);
   const tax = taxableAmount * 0.05;
 
@@ -479,7 +479,7 @@ function updateCartUI() {
   const badge = document.getElementById('basket-badge-count');
   const subtotalLabel = document.getElementById('basket-header-subtotal');
   if (badge) badge.textContent = totals.itemCount;
-  if (subtotalLabel) subtotalLabel.textContent = `$${totals.total.toFixed(2)}`;
+  if (subtotalLabel) subtotalLabel.textContent = formatCurrency(totals.total);
 
   // Basket Drawer content
   const drawerList = document.getElementById('basket-items-container');
@@ -491,16 +491,16 @@ function updateCartUI() {
     drawerCountHeader.textContent = `Shopping Basket (${totals.itemCount} items)`;
   }
 
-  // Free Shipping Meter
+  // Free Shipping Meter (in LKR)
   const shippingText = document.getElementById('shipping-meter-status');
   const shippingProgressBar = document.getElementById('shipping-progress-fill');
   if (shippingText && shippingProgressBar) {
     if (totals.subtotal === 0) {
-      shippingText.innerHTML = `Add <strong>$50.00</strong> to unlock FREE Delivery!`;
+      shippingText.innerHTML = `Add <strong>${formatCurrency(15000)}</strong> to unlock FREE Delivery!`;
       shippingProgressBar.style.width = '0%';
     } else if (totals.neededForFreeShipping > 0) {
       const pct = Math.min(100, (totals.subtotal / totals.freeShippingThreshold) * 100);
-      shippingText.innerHTML = `Add <strong>$${totals.neededForFreeShipping.toFixed(2)}</strong> more for <strong>FREE Delivery</strong>`;
+      shippingText.innerHTML = `Add <strong>${formatCurrency(totals.neededForFreeShipping)}</strong> more for <strong>FREE Delivery</strong>`;
       shippingProgressBar.style.width = `${pct}%`;
     } else {
       shippingText.innerHTML = `🎉 <strong>Congratulations!</strong> You unlocked FREE Delivery!`;
@@ -523,7 +523,7 @@ function updateCartUI() {
     drawerList.innerHTML = State.cart.map(item => {
       const product = State.products.find(p => p.id === item.productId);
       if (!product) return '';
-      const lineTotal = (product.price * item.quantity).toFixed(2);
+      const lineTotal = product.price * item.quantity;
       const isMaxStock = item.quantity >= product.stock;
 
       return `
@@ -531,7 +531,7 @@ function updateCartUI() {
           <img src="${product.image}" alt="${product.name}" class="basket-item-img">
           <div class="basket-item-info">
             <h4>${product.name}</h4>
-            <div class="basket-item-unit-price">$${product.price.toFixed(2)} each</div>
+            <div class="basket-item-unit-price">${formatCurrency(product.price)} each</div>
             <div class="quantity-stepper">
               <button 
                 class="stepper-btn" 
@@ -546,7 +546,7 @@ function updateCartUI() {
             </div>
           </div>
           <div class="basket-item-actions">
-            <span class="basket-item-total">$${lineTotal}</span>
+            <span class="basket-item-total">${formatCurrency(lineTotal)}</span>
             <button 
               class="btn-remove-item" 
               onclick="removeFromCart(${product.id})" 
@@ -557,18 +557,18 @@ function updateCartUI() {
     }).join('');
   }
 
-  // Update Summary numbers
-  document.getElementById('drawer-subtotal-val').textContent = `$${totals.subtotal.toFixed(2)}`;
-  document.getElementById('drawer-shipping-val').textContent = totals.shipping === 0 ? 'FREE' : `$${totals.shipping.toFixed(2)}`;
-  document.getElementById('drawer-tax-val').textContent = `$${totals.tax.toFixed(2)}`;
-  document.getElementById('drawer-grandtotal-val').textContent = `$${totals.total.toFixed(2)}`;
+  // Update Summary numbers in LKR
+  document.getElementById('drawer-subtotal-val').textContent = formatCurrency(totals.subtotal);
+  document.getElementById('drawer-shipping-val').textContent = totals.shipping === 0 ? 'FREE' : formatCurrency(totals.shipping);
+  document.getElementById('drawer-tax-val').textContent = formatCurrency(totals.tax);
+  document.getElementById('drawer-grandtotal-val').textContent = formatCurrency(totals.total);
 
   // Discount display
   const discountRow = document.getElementById('drawer-discount-row');
   if (discountRow) {
     if (totals.discountAmount > 0) {
       discountRow.style.display = 'flex';
-      document.getElementById('drawer-discount-val').textContent = `-$${totals.discountAmount.toFixed(2)}`;
+      document.getElementById('drawer-discount-val').textContent = `-${formatCurrency(totals.discountAmount)}`;
     } else {
       discountRow.style.display = 'none';
     }
@@ -601,7 +601,7 @@ function openQuickView(productId) {
   const modalBody = document.getElementById('quick-view-modal-content');
   if (!modalBody) return;
 
-  const savings = (product.originalPrice - product.price).toFixed(2);
+  const savings = (product.originalPrice - product.price);
   const isOutOfStock = product.stock <= 0;
 
   modalBody.innerHTML = `
@@ -620,9 +620,9 @@ function openQuickView(productId) {
           <span>${product.rating} (${product.reviewsCount} verified reviews)</span>
         </div>
         <div class="product-pricing" style="margin-bottom: 14px;">
-          <span class="current-price" style="font-size: var(--font-2xl);">$${product.price.toFixed(2)}</span>
-          <span class="original-price">$${product.originalPrice.toFixed(2)}</span>
-          <span class="savings-tag">Save $${savings}</span>
+          <span class="current-price" style="font-size: var(--font-2xl);">${formatCurrency(product.price)}</span>
+          <span class="original-price">${formatCurrency(product.originalPrice)}</span>
+          <span class="savings-tag">Save ${formatCurrency(savings)}</span>
         </div>
         <p style="font-size: var(--font-sm); color: var(--text-secondary); margin-bottom: 16px; line-height: 1.6;">
           ${product.fullDescription}
@@ -672,7 +672,6 @@ function startCheckout() {
 function setCheckoutStep(stepNumber) {
   State.checkout.currentStep = stepNumber;
 
-  // Update stepper indicator circles
   for (let i = 1; i <= 4; i++) {
     const stepEl = document.getElementById(`checkout-step-${i}`);
     if (!stepEl) continue;
@@ -684,7 +683,6 @@ function setCheckoutStep(stepNumber) {
     }
   }
 
-  // Show/Hide step panes
   for (let i = 1; i <= 4; i++) {
     const pane = document.getElementById(`checkout-pane-step-${i}`);
     if (pane) pane.style.display = i === stepNumber ? 'block' : 'none';
@@ -696,13 +694,13 @@ function setCheckoutStep(stepNumber) {
 }
 
 function autofillDemoCustomer() {
-  document.getElementById('cust-fullname').value = 'Alex Mercer';
-  document.getElementById('cust-email').value = 'alex.mercer@university.ac.uk';
-  document.getElementById('cust-phone').value = '+44 7700 900452';
-  document.getElementById('cust-address').value = '42 Highfield Innovation Lane';
-  document.getElementById('cust-city').value = 'Southampton';
-  document.getElementById('cust-postal').value = 'SO17 1BJ';
-  showToast('Demo shipping information auto-filled!', 'success');
+  document.getElementById('cust-fullname').value = 'Kavindu Perera';
+  document.getElementById('cust-email').value = 'kavindu.perera@students.ac.lk';
+  document.getElementById('cust-phone').value = '+94 77 123 4567';
+  document.getElementById('cust-address').value = 'No. 42, Galle Road, Bambalapitiya';
+  document.getElementById('cust-city').value = 'Colombo 04';
+  document.getElementById('cust-postal').value = '00400';
+  showToast('Demo Sri Lankan shipping info auto-filled!', 'success');
 }
 
 function handleStep1ShippingSubmit(event) {
@@ -740,7 +738,7 @@ function selectPaymentMethod(method) {
     altDetails.style.display = 'block';
     altDetails.textContent = method === 'paypal' 
       ? 'You will be redirected to PayPal sandbox mock authorization on final order confirmation.' 
-      : 'You can pay in cash or via portable terminal upon arrival of order.';
+      : 'You can pay in cash or via portable terminal upon arrival of order in Sri Lanka.';
   }
 }
 
@@ -834,7 +832,7 @@ function renderCheckoutReview() {
         return `
           <div style="display: flex; justify-content: space-between; font-size: var(--font-xs); padding: 6px 0; border-bottom: 1px solid var(--border-light);">
             <span>${product.name} × ${item.quantity}</span>
-            <span style="font-weight: 700;">$${(product.price * item.quantity).toFixed(2)}</span>
+            <span style="font-weight: 700;">${formatCurrency(product.price * item.quantity)}</span>
           </div>
         `;
       }).join('')}
@@ -842,20 +840,20 @@ function renderCheckoutReview() {
 
     <div style="background: var(--bg-surface); border: 1.5px solid var(--primary); border-radius: var(--radius-md); padding: 14px;">
       <div style="display: flex; justify-content: space-between; font-size: var(--font-sm); margin-bottom: 4px;">
-        <span>Items Subtotal:</span><span>$${totals.subtotal.toFixed(2)}</span>
+        <span>Items Subtotal:</span><span>${formatCurrency(totals.subtotal)}</span>
       </div>
       ${totals.discountAmount > 0 ? `
         <div style="display: flex; justify-content: space-between; font-size: var(--font-sm); color: var(--success); margin-bottom: 4px;">
-          <span>Promo Discount (${State.appliedPromo.code}):</span><span>-$${totals.discountAmount.toFixed(2)}</span>
+          <span>Promo Discount (${State.appliedPromo.code}):</span><span>-${formatCurrency(totals.discountAmount)}</span>
         </div>` : ''}
       <div style="display: flex; justify-content: space-between; font-size: var(--font-sm); margin-bottom: 4px;">
-        <span>Estimated Delivery:</span><span>${totals.shipping === 0 ? 'FREE' : '$' + totals.shipping.toFixed(2)}</span>
+        <span>Estimated Delivery:</span><span>${totals.shipping === 0 ? 'FREE' : formatCurrency(totals.shipping)}</span>
       </div>
       <div style="display: flex; justify-content: space-between; font-size: var(--font-sm); margin-bottom: 8px;">
-        <span>Estimated Tax (5%):</span><span>$${totals.tax.toFixed(2)}</span>
+        <span>Estimated Tax (5%):</span><span>${formatCurrency(totals.tax)}</span>
       </div>
       <div style="display: flex; justify-content: space-between; font-size: var(--font-lg); font-weight: 800; border-top: 1px solid var(--border-light); padding-top: 8px;">
-        <span>Final Total:</span><span style="color: var(--primary);">$${totals.total.toFixed(2)}</span>
+        <span>Final Total:</span><span style="color: var(--primary);">${formatCurrency(totals.total)}</span>
       </div>
     </div>
   `;
@@ -912,7 +910,7 @@ function placeFinalOrder() {
 
   // 6. Transition Step
   setCheckoutStep(4);
-  speakText(`Order confirmed! Your order reference is ${orderId}. Thank you for shopping with UniCart.`);
+  speakText(`Order confirmed! Your order reference is ${orderId}. Total paid is ${totals.total.toLocaleString()} Sri Lankan Rupees. Thank you for shopping with UniCart.`);
   showToast(`Order ${orderId} placed successfully!`, 'success');
 }
 
@@ -949,7 +947,7 @@ function renderOrderConfirmation(order) {
         <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--border-medium); padding-bottom: 12px; margin-bottom: 14px;">
           <div>
             <h3 style="font-size: var(--font-lg); font-weight: 900; color: var(--primary);">UniCart Universal Store</h3>
-            <span style="font-size: 11px; color: var(--text-muted);">BSc(Hons) Software Engineering Project</span>
+            <span style="font-size: 11px; color: var(--text-muted);">BSc(Hons) Software Engineering Project (Sri Lanka)</span>
           </div>
           <div style="text-align: right; font-size: var(--font-xs);">
             <strong>Invoice #: ${order.orderId}</strong><br>
@@ -978,8 +976,8 @@ function renderOrderConfirmation(order) {
             <tr style="background: var(--bg-surface); border-bottom: 1px solid var(--border-medium);">
               <th style="text-align: left; padding: 6px;">Item Description</th>
               <th style="text-align: center; padding: 6px;">Qty</th>
-              <th style="text-align: right; padding: 6px;">Unit Price</th>
-              <th style="text-align: right; padding: 6px;">Amount</th>
+              <th style="text-align: right; padding: 6px;">Unit Price (LKR)</th>
+              <th style="text-align: right; padding: 6px;">Amount (LKR)</th>
             </tr>
           </thead>
           <tbody>
@@ -987,20 +985,20 @@ function renderOrderConfirmation(order) {
               <tr style="border-bottom: 1px solid var(--border-light);">
                 <td style="padding: 6px;">${item.name}</td>
                 <td style="text-align: center; padding: 6px;">${item.quantity}</td>
-                <td style="text-align: right; padding: 6px;">$${item.price.toFixed(2)}</td>
-                <td style="text-align: right; padding: 6px; font-weight: 700;">$${item.total.toFixed(2)}</td>
+                <td style="text-align: right; padding: 6px;">${formatCurrency(item.price)}</td>
+                <td style="text-align: right; padding: 6px; font-weight: 700;">${formatCurrency(item.total)}</td>
               </tr>
             `).join('')}
           </tbody>
         </table>
 
         <div style="text-align: right; font-size: var(--font-xs); line-height: 1.6;">
-          <div>Subtotal: <strong>$${order.totals.subtotal.toFixed(2)}</strong></div>
-          ${order.totals.discountAmount > 0 ? `<div>Discount: <strong style="color: var(--success);">- $${order.totals.discountAmount.toFixed(2)}</strong></div>` : ''}
-          <div>Shipping: <strong>${order.totals.shipping === 0 ? 'FREE' : '$' + order.totals.shipping.toFixed(2)}</strong></div>
-          <div>Tax (5%): <strong>$${order.totals.tax.toFixed(2)}</strong></div>
+          <div>Subtotal: <strong>${formatCurrency(order.totals.subtotal)}</strong></div>
+          ${order.totals.discountAmount > 0 ? `<div>Discount: <strong style="color: var(--success);">- ${formatCurrency(order.totals.discountAmount)}</strong></div>` : ''}
+          <div>Shipping: <strong>${order.totals.shipping === 0 ? 'FREE' : formatCurrency(order.totals.shipping)}</strong></div>
+          <div>Tax (5%): <strong>${formatCurrency(order.totals.tax)}</strong></div>
           <div style="font-size: var(--font-base); font-weight: 900; margin-top: 6px; border-top: 1px solid var(--border-medium); padding-top: 6px;">
-            Total Paid: <span style="color: var(--primary);">$${order.totals.total.toFixed(2)}</span>
+            Total Paid: <span style="color: var(--primary);">${formatCurrency(order.totals.total)}</span>
           </div>
         </div>
       </div>
@@ -1052,7 +1050,7 @@ function openOrdersModal() {
             ${o.items.map(i => `${i.name} (×${i.quantity})`).join(', ')}
           </div>
           <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-light); padding-top: 8px;">
-            <span style="font-size: var(--font-xs); font-weight: 700;">Total: $${o.totals.total.toFixed(2)}</span>
+            <span style="font-size: var(--font-xs); font-weight: 700;">Total: ${formatCurrency(o.totals.total)}</span>
             <button class="btn-secondary" style="padding: 4px 10px; font-size: 11px;" onclick="renderOrderConfirmationFromHistory(${idx})">
               View Receipt
             </button>
@@ -1090,7 +1088,7 @@ function clearOrdersHistory() {
 // --- Reset All Demo Data (Stock, Cart, Settings) ---
 
 function resetAllDemoData() {
-  if (!confirm('Reset catalog stock to original 10 items, empty shopping basket, and reset demo data?')) {
+  if (!confirm('Reset catalog stock to original 10 items in LKR, empty shopping basket, and reset demo data?')) {
     return;
   }
   State.products = resetProducts();
@@ -1102,13 +1100,13 @@ function resetAllDemoData() {
 
   renderProducts();
   updateCartUI();
-  showToast('All demo data and inventory successfully reset!', 'success');
+  showToast('All demo data and inventory successfully reset to LKR!', 'success');
 }
 
 function resetAllFilters() {
   State.activeCategory = 'All';
   State.searchQuery = '';
-  State.maxPrice = 250;
+  State.maxPrice = 80000;
   State.inStockOnly = false;
   State.sortBy = 'featured';
 
@@ -1121,8 +1119,8 @@ function resetAllFilters() {
 
   const priceSlider = document.getElementById('price-range-slider');
   const priceDisplay = document.getElementById('price-val-display');
-  if (priceSlider) priceSlider.value = 250;
-  if (priceDisplay) priceDisplay.textContent = '$250';
+  if (priceSlider) priceSlider.value = 80000;
+  if (priceDisplay) priceDisplay.textContent = formatCurrency(80000);
 
   const chkStock = document.getElementById('chk-instock-only');
   if (chkStock) chkStock.checked = false;
@@ -1154,7 +1152,6 @@ function closeModal(modalId) {
   const modal = document.getElementById(modalId);
   const backdrop = document.getElementById('modal-backdrop');
   if (modal) modal.classList.remove('active');
-  // Check if any other modal is still active
   const anyModalActive = document.querySelector('.modal-window.active, .basket-drawer.active');
   if (!anyModalActive && backdrop) {
     backdrop.classList.remove('active');
@@ -1253,7 +1250,6 @@ function initEventListeners() {
   if (searchCategorySelect) {
     searchCategorySelect.addEventListener('change', (e) => {
       State.activeCategory = e.target.value;
-      // sync subnav pills
       document.querySelectorAll('.subnav-btn').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.categoryTarget === e.target.value);
       });
@@ -1272,13 +1268,13 @@ function initEventListeners() {
     });
   });
 
-  // Price range slider
+  // Price range slider (in LKR: min 5000, max 80000, step 1000)
   const priceSlider = document.getElementById('price-range-slider');
   const priceDisplay = document.getElementById('price-val-display');
   if (priceSlider) {
     priceSlider.addEventListener('input', (e) => {
       State.maxPrice = parseFloat(e.target.value);
-      if (priceDisplay) priceDisplay.textContent = `$${State.maxPrice}`;
+      if (priceDisplay) priceDisplay.textContent = formatCurrency(State.maxPrice);
       renderProducts();
     });
   }
@@ -1334,7 +1330,6 @@ function initEventListeners() {
 
 function setupKeyboardShortcuts() {
   document.addEventListener('keydown', (e) => {
-    // If typing inside an input/textarea/select, only handle Escape
     const isEditing = ['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName);
 
     if (e.key === 'Escape') {

@@ -2,6 +2,7 @@
  * UniCart E-Commerce Platform
  * Product Catalog Data & LocalStorage Seed
  * Exactly 10 Products across 3 Categories ("Electronics", "Clothing", "Food")
+ * Currency: Sri Lankan Rupee (LKR)
  * All files in root folder for submission.
  */
 
@@ -11,8 +12,8 @@ const DEFAULT_PRODUCTS = [
     id: 1,
     name: "Aura Sound Pro Wireless Noise-Cancelling Headphones",
     category: "Electronics",
-    price: 189.99,
-    originalPrice: 229.99,
+    price: 58500.00,
+    originalPrice: 69900.00,
     stock: 12,
     rating: 4.8,
     reviewsCount: 128,
@@ -32,8 +33,8 @@ const DEFAULT_PRODUCTS = [
     id: 2,
     name: "PulseFit Ultra GPS Smartwatch Series 7",
     category: "Electronics",
-    price: 149.50,
-    originalPrice: 179.00,
+    price: 45900.00,
+    originalPrice: 54000.00,
     stock: 8,
     rating: 4.6,
     reviewsCount: 94,
@@ -53,8 +54,8 @@ const DEFAULT_PRODUCTS = [
     id: 3,
     name: "Lumina 4K Ultra-HD Waterproof Action Camera",
     category: "Electronics",
-    price: 219.00,
-    originalPrice: 259.00,
+    price: 68000.00,
+    originalPrice: 79500.00,
     stock: 4,
     rating: 4.9,
     reviewsCount: 210,
@@ -74,8 +75,8 @@ const DEFAULT_PRODUCTS = [
     id: 4,
     name: "HyperCharge 65W GaN Fast Dual-Port Charger",
     category: "Electronics",
-    price: 39.95,
-    originalPrice: 49.99,
+    price: 12500.00,
+    originalPrice: 15200.00,
     stock: 25,
     rating: 4.7,
     reviewsCount: 340,
@@ -97,8 +98,8 @@ const DEFAULT_PRODUCTS = [
     id: 5,
     name: "Merino Wool Thermal Crewneck Sweater",
     category: "Clothing",
-    price: 89.00,
-    originalPrice: 110.00,
+    price: 26800.00,
+    originalPrice: 32500.00,
     stock: 15,
     rating: 4.7,
     reviewsCount: 88,
@@ -118,8 +119,8 @@ const DEFAULT_PRODUCTS = [
     id: 6,
     name: "WeatherShield All-Season Technical Rain Parka",
     category: "Clothing",
-    price: 165.00,
-    originalPrice: 199.00,
+    price: 49900.00,
+    originalPrice: 58000.00,
     stock: 6,
     rating: 4.8,
     reviewsCount: 62,
@@ -139,8 +140,8 @@ const DEFAULT_PRODUCTS = [
     id: 7,
     name: "UrbanFlex Ergonomic Active Stretch Joggers",
     category: "Clothing",
-    price: 58.50,
-    originalPrice: 72.00,
+    price: 17900.00,
+    originalPrice: 21500.00,
     stock: 19,
     rating: 4.5,
     reviewsCount: 155,
@@ -162,8 +163,8 @@ const DEFAULT_PRODUCTS = [
     id: 8,
     name: "Artisan Single-Origin Arabica Coffee Beans (1kg)",
     category: "Food",
-    price: 28.50,
-    originalPrice: 35.00,
+    price: 8900.00,
+    originalPrice: 10500.00,
     stock: 30,
     rating: 4.9,
     reviewsCount: 412,
@@ -183,8 +184,8 @@ const DEFAULT_PRODUCTS = [
     id: 9,
     name: "Wild Mountain Blossom Raw Organic Honey (500g)",
     category: "Food",
-    price: 19.95,
-    originalPrice: 24.50,
+    price: 5950.00,
+    originalPrice: 7200.00,
     stock: 14,
     rating: 4.8,
     reviewsCount: 179,
@@ -204,8 +205,8 @@ const DEFAULT_PRODUCTS = [
     id: 10,
     name: "Cold-Pressed Extra Virgin Estate Olive Oil (750ml)",
     category: "Food",
-    price: 34.50,
-    originalPrice: 42.00,
+    price: 10800.00,
+    originalPrice: 13000.00,
     stock: 9,
     rating: 4.7,
     reviewsCount: 95,
@@ -223,14 +224,22 @@ const DEFAULT_PRODUCTS = [
   }
 ];
 
-// LocalStorage Keys
+// LocalStorage Keys (v2 for LKR currency)
 const STORAGE_KEYS = {
-  PRODUCTS: "unicart_products_v1",
-  CART: "unicart_cart_v1",
-  ORDERS: "unicart_orders_v1",
-  SETTINGS: "unicart_settings_v1",
-  PROMO: "unicart_applied_promo_v1"
+  PRODUCTS: "unicart_products_lkr_v2",
+  CART: "unicart_cart_lkr_v2",
+  ORDERS: "unicart_orders_lkr_v2",
+  SETTINGS: "unicart_settings_v2",
+  PROMO: "unicart_applied_promo_lkr_v2"
 };
+
+/**
+ * Currency Formatter Utility for LKR
+ */
+function formatCurrency(amount) {
+  const num = Number(amount) || 0;
+  return 'LKR ' + num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
 
 /**
  * Initializes and retrieves products from LocalStorage.

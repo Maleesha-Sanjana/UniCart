@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="UniCart - A modern, accessible e-commerce platform built strictly adhering to Universal Design standards with HTML, CSS, JavaScript and LocalStorage.">
   <meta name="author" content="BSc(Hons) Software Engineering Students">
-  <title>UniCart | Universal E-Commerce Store</title>
+  <title>UniCart | Universal E-Commerce Store (LKR)</title>
 
   <!-- Stylesheet directly in root directory -->
   <link rel="stylesheet" href="style.css">
@@ -25,7 +25,7 @@
   <aside class="announcement-bar" aria-label="Store Announcements">
     <div>
       <span class="badge-pill">UNIVERSAL ACCESS</span>
-      <span>Enjoy <strong>FREE delivery</strong> on all orders over <strong>$50.00</strong> | Universal Design Certified</span>
+      <span>Enjoy <strong>FREE delivery</strong> on all orders over <strong>LKR 15,000.00</strong> | Universal Design Certified</span>
     </div>
     <div class="quick-links">
       <a href="#ud-principles" onclick="document.getElementById('ud-principles').scrollIntoView({behavior: 'smooth'})">Universal Design Standards</a>
@@ -94,7 +94,7 @@
           <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
           <span>Basket</span>
           <span class="basket-badge" id="basket-badge-count">0</span>
-          <span class="basket-subtotal" id="basket-header-subtotal">$0.00</span>
+          <span class="basket-subtotal" id="basket-header-subtotal">LKR 0.00</span>
         </button>
       </div>
     </div>
@@ -154,7 +154,7 @@
             </span>
           </div>
           <h1>Universal Quality Products, <span>Engineered For Everyone</span></h1>
-          <p>Explore 10 curated premium products across 3 essential categories. Built with keyboard navigation, screen reader assistance, high contrast modes, and persistent offline storage.</p>
+          <p>Explore 10 curated premium products across 3 essential categories priced in Sri Lankan Rupees (LKR). Built with keyboard navigation, screen reader assistance, high contrast modes, and persistent offline storage.</p>
           <div class="hero-actions">
             <button class="btn-primary btn-open-basket">
               View Shopping Basket
@@ -168,12 +168,12 @@
         <!-- 10% Discount Promo Card -->
         <div class="hero-promo-card">
           <h3>Exclusive Promo Discount</h3>
-          <p>Apply coupon at checkout or basket to enjoy 10% off your entire order!</p>
+          <p>Apply coupon at checkout or basket to enjoy 10% off your entire order in LKR!</p>
           <div class="promo-code-box" onclick="applyPromoCode('UNICART10')" title="Click to apply automatically">
             <code>UNICART10</code>
             <span style="font-size: 11px; background: rgba(56, 189, 248, 0.2); color: #38bdf8; padding: 2px 6px; border-radius: 4px;">Click to Apply</span>
           </div>
-          <span class="promo-copy-hint">Valid across all 10 products with live recalculation</span>
+          <span class="promo-copy-hint">Valid across all 10 products with live recalculation in LKR</span>
         </div>
       </div>
     </section>
@@ -182,18 +182,18 @@
     <section class="controls-section" aria-label="Catalog Filtering and Sorting Controls">
       <div class="controls-grid">
         <div class="controls-left">
-          <!-- Price Range Filter Slider -->
+          <!-- Price Range Filter Slider in LKR -->
           <div class="filter-group price-slider-group">
             <label for="price-range-slider" class="filter-label">Max Price:</label>
             <input 
               type="range" 
               id="price-range-slider" 
-              min="20" 
-              max="250" 
-              step="5" 
-              value="250" 
-              aria-label="Filter products by maximum price">
-            <span class="price-display-val" id="price-val-display">$250</span>
+              min="5000" 
+              max="80000" 
+              step="1000" 
+              value="80000" 
+              aria-label="Filter products by maximum price in LKR">
+            <span class="price-display-val" id="price-val-display">LKR 80,000.00</span>
           </div>
 
           <!-- In Stock Only Checkbox -->
@@ -223,7 +223,7 @@
       </div>
     </section>
 
-    <!-- Product Cards Grid (Populated dynamically by app.js) -->
+    <!-- Product Cards Grid (Populated dynamically by app.js in LKR) -->
     <section aria-label="Product Catalog">
       <div class="products-grid" id="products-grid-container" role="region" aria-live="polite">
         <!-- Products will be rendered here by app.js -->
@@ -242,7 +242,7 @@
       <div class="ud-grid">
         <div class="ud-card">
           <h4>1. Equitable Use</h4>
-          <p>Identical access for all users: WCAG AAA High Contrast mode, Dyslexia-friendly font scale, and Text-to-Speech audio reader.</p>
+          <p>Identical access for all users: WCAG AAA High Contrast mode, Dyslexia-friendly font scale, and Text-to-Speech audio reader with LKR currency support.</p>
         </div>
         <div class="ud-card">
           <h4>2. Flexibility in Use</h4>
@@ -288,10 +288,10 @@
       <button class="btn-close-drawer" onclick="closeDrawer('basket-drawer')" aria-label="Close Shopping Basket">✕</button>
     </div>
 
-    <!-- Free Delivery Progress Meter -->
+    <!-- Free Delivery Progress Meter in LKR -->
     <div class="shipping-meter-box">
       <div class="shipping-meter-text" id="shipping-meter-status">
-        Add <strong>$50.00</strong> to unlock FREE Delivery!
+        Add <strong>LKR 15,000.00</strong> to unlock FREE Delivery!
       </div>
       <div class="shipping-progress-track">
         <div class="shipping-progress-bar" id="shipping-progress-fill" style="width: 0%;"></div>
@@ -310,7 +310,7 @@
 
       <!-- Items List -->
       <div class="basket-items-list" id="basket-items-container">
-        <!-- Rendered dynamically by app.js -->
+        <!-- Rendered dynamically by app.js in LKR -->
       </div>
     </div>
 
@@ -328,26 +328,26 @@
         <button class="btn-apply-promo" onclick="applyPromoCode()">Apply</button>
       </div>
 
-      <!-- Price Totals Breakdown -->
+      <!-- Price Totals Breakdown in LKR -->
       <div class="basket-summary-row">
         <span>Items Subtotal:</span>
-        <span id="drawer-subtotal-val">$0.00</span>
+        <span id="drawer-subtotal-val">LKR 0.00</span>
       </div>
       <div class="basket-summary-row" id="drawer-discount-row" style="display: none; color: var(--success); font-weight: 700;">
         <span>Promo Discount:</span>
-        <span id="drawer-discount-val">-$0.00</span>
+        <span id="drawer-discount-val">-LKR 0.00</span>
       </div>
       <div class="basket-summary-row">
         <span>Estimated Delivery:</span>
         <span id="drawer-shipping-val">FREE</span>
       </div>
       <div class="basket-summary-row">
-        <span>Estimated Tax (5%):</span>
-        <span id="drawer-tax-val">$0.00</span>
+        <span>Estimated Tax / Service (5%):</span>
+        <span id="drawer-tax-val">LKR 0.00</span>
       </div>
       <div class="basket-summary-row total-row">
         <span>Total:</span>
-        <span id="drawer-grandtotal-val">$0.00</span>
+        <span id="drawer-grandtotal-val">LKR 0.00</span>
       </div>
 
       <div class="drawer-actions">
@@ -384,7 +384,7 @@
     aria-modal="true" 
     aria-labelledby="checkout-wizard-title">
     <div class="modal-header">
-      <h2 id="checkout-wizard-title">Secure Mock Checkout</h2>
+      <h2 id="checkout-wizard-title">Secure Mock Checkout (LKR)</h2>
       <button class="btn-close-drawer" onclick="closeModal('checkout-modal')" aria-label="Close Checkout">✕</button>
     </div>
 
@@ -414,7 +414,7 @@
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
           <h3 style="font-size: var(--font-base); font-weight: 800;">Customer &amp; Shipping Details</h3>
           <button type="button" class="btn-autofill-demo" onclick="autofillDemoCustomer()">
-            ⚡ 1-Click Auto-Fill Demo Data
+            ⚡ 1-Click Auto-Fill Demo Data (Sri Lanka)
           </button>
         </div>
 
@@ -422,32 +422,32 @@
           <div class="form-grid">
             <div class="form-field">
               <label for="cust-fullname" class="form-label">Full Name *</label>
-              <input type="text" id="cust-fullname" class="form-input" required placeholder="e.g. Alex Mercer">
+              <input type="text" id="cust-fullname" class="form-input" required placeholder="e.g. Kavindu Perera">
             </div>
 
             <div class="form-field">
               <label for="cust-email" class="form-label">Email Address *</label>
-              <input type="email" id="cust-email" class="form-input" required placeholder="alex.mercer@university.ac.uk">
+              <input type="email" id="cust-email" class="form-input" required placeholder="kavindu.perera@students.ac.lk">
             </div>
 
             <div class="form-field">
-              <label for="cust-phone" class="form-label">Phone Number</label>
-              <input type="tel" id="cust-phone" class="form-input" placeholder="+44 7700 900452">
+              <label for="cust-phone" class="form-label">Phone Number (Sri Lanka)</label>
+              <input type="tel" id="cust-phone" class="form-input" placeholder="+94 77 123 4567">
             </div>
 
             <div class="form-field form-full">
               <label for="cust-address" class="form-label">Delivery Street Address *</label>
-              <input type="text" id="cust-address" class="form-input" required placeholder="42 Highfield Innovation Lane">
+              <input type="text" id="cust-address" class="form-input" required placeholder="No. 42, Galle Road, Bambalapitiya">
             </div>
 
             <div class="form-field">
               <label for="cust-city" class="form-label">City *</label>
-              <input type="text" id="cust-city" class="form-input" required placeholder="Southampton">
+              <input type="text" id="cust-city" class="form-input" required placeholder="Colombo 04">
             </div>
 
             <div class="form-field">
-              <label for="cust-postal" class="form-label">Postal / Zip Code *</label>
-              <input type="text" id="cust-postal" class="form-input" required placeholder="SO17 1BJ">
+              <label for="cust-postal" class="form-label">Postal Code *</label>
+              <input type="text" id="cust-postal" class="form-input" required placeholder="00400">
             </div>
           </div>
 
@@ -486,7 +486,7 @@
             <div class="card-preview-row">
               <div>
                 <div class="card-preview-holder-label">Cardholder</div>
-                <div class="card-preview-holder" id="card-preview-holder-display">ALEX MERCER</div>
+                <div class="card-preview-holder" id="card-preview-holder-display">KAVINDU PERERA</div>
               </div>
               <div>
                 <div class="card-preview-holder-label">Expires</div>
@@ -504,8 +504,8 @@
                   id="card-name" 
                   class="form-input" 
                   required 
-                  placeholder="Alex Mercer"
-                  value="Alex Mercer"
+                  placeholder="Kavindu Perera"
+                  value="Kavindu Perera"
                   oninput="updateCardHolderPreview(this)">
               </div>
 
@@ -569,13 +569,13 @@
         <h3 style="font-size: var(--font-base); font-weight: 800; margin-bottom: 12px;">Review Your Order</h3>
         
         <div id="checkout-review-summary">
-          <!-- Populated dynamically by renderCheckoutReview() -->
+          <!-- Populated dynamically by renderCheckoutReview() in LKR -->
         </div>
 
         <div style="margin-top: 16px;">
           <label class="custom-checkbox">
             <input type="checkbox" id="chk-terms-agree" checked>
-            <span>I confirm this mock purchase and adhere to the Universal Design accessibility standards.</span>
+            <span>I confirm this mock purchase in LKR and adhere to the Universal Design accessibility standards.</span>
           </label>
         </div>
 
@@ -590,7 +590,7 @@
       <!-- STEP 4: Success & Printable Invoice -->
       <div id="checkout-pane-step-4" class="checkout-pane" style="display: none;">
         <div id="checkout-confirmation-container">
-          <!-- Populated dynamically by renderOrderConfirmation() -->
+          <!-- Populated dynamically by renderOrderConfirmation() in LKR -->
         </div>
       </div>
     </div>
@@ -664,7 +664,7 @@
       <div class="a11y-control-row">
         <div class="a11y-control-info">
           <h4>Text-to-Speech Audio Reader</h4>
-          <p>Enable native Web Speech API synthesizer for audible product descriptions.</p>
+          <p>Enable native Web Speech API synthesizer for audible product descriptions in Sri Lankan Rupees.</p>
         </div>
         <label class="custom-checkbox">
           <input type="checkbox" id="chk-speech-toggle" checked>
@@ -689,7 +689,7 @@
 
     <div class="modal-footer">
       <button class="btn-secondary" onclick="resetAllDemoData()">
-        ⚠️ Reset All Demo Data
+        ⚠️ Reset All Demo Data (LKR)
       </button>
       <button class="btn-primary" onclick="closeModal('a11y-modal')">
         Save &amp; Close
@@ -705,11 +705,11 @@
     aria-modal="true" 
     aria-labelledby="orders-modal-title">
     <div class="modal-header">
-      <h2 id="orders-modal-title">Order History (LocalStorage)</h2>
+      <h2 id="orders-modal-title">Order History (LocalStorage - LKR)</h2>
       <button class="btn-close-drawer" onclick="closeModal('orders-modal')" aria-label="Close Orders History">✕</button>
     </div>
     <div class="modal-body" id="orders-history-list">
-      <!-- Populated dynamically by openOrdersModal() -->
+      <!-- Populated dynamically by openOrdersModal() in LKR -->
     </div>
     <div class="modal-footer">
       <button class="btn-secondary" onclick="clearOrdersHistory()">Clear Order History</button>
@@ -727,7 +727,7 @@
         <div class="footer-col">
           <img src="logo.svg" alt="UniCart Logo" width="160" height="40" style="margin-bottom: 12px;">
           <p style="font-size: var(--font-xs); color: var(--text-muted); line-height: 1.6; max-width: 380px;">
-            UniCart is an exemplary e-commerce web application developed for BSc(Hons) Software Engineering Year 3 (Task 1: 40%). Created with HTML5, CSS3, and JavaScript adhering strictly to Universal Design Standards and browser LocalStorage specifications without any subfolders.
+            UniCart is an exemplary e-commerce web application developed for BSc(Hons) Software Engineering Year 3 (Task 1: 40%). Created with HTML5, CSS3, and JavaScript adhering strictly to Universal Design Standards and browser LocalStorage specifications without any subfolders. All prices are in Sri Lankan Rupees (LKR).
           </p>
         </div>
 
@@ -758,7 +758,7 @@
             <li><span style="font-size: var(--font-xs); color: var(--text-muted);">Module: Task 1 (40%)</span></li>
             <li style="margin-top: 10px;">
               <button class="btn-footer-reset" onclick="resetAllDemoData()">
-                ↺ Reset All Demo Data
+                ↺ Reset All Demo Data (LKR)
               </button>
             </li>
           </ul>
@@ -767,7 +767,7 @@
 
       <div class="footer-bottom">
         <div>
-          &copy; 2026 UniCart Universal E-Commerce. All files located in one folder without subdirectories.
+          &copy; 2026 UniCart Universal E-Commerce. Currency: Sri Lankan Rupee (LKR). All files located in one folder without subdirectories.
         </div>
         <div>
           Validated HTML5 • Pure CSS3 • Vanilla JavaScript ES6+ • LocalStorage
