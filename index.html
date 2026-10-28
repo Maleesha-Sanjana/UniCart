@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="UniCart - A modern, accessible e-commerce platform built strictly adhering to Universal Design standards with HTML, CSS, JavaScript and LocalStorage.">
+  <meta name="author" content="BSc(Hons) Software Engineering Students">
+  <title>UniCart | Universal E-Commerce Store</title>
+
+  <!-- Stylesheet directly in root directory -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Favicon / Brand Icon -->
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+</head>
+<body>
+
+  <!-- Screen Reader Live Announcements (Universal Design Principle 4) -->
+  <div id="sr-announcements" class="sr-only" aria-live="polite"></div>
+
+  <!-- Skip to Main Content Link for Keyboard / Screen Reader Navigation -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- Top Announcement Bar -->
+  <aside class="announcement-bar" aria-label="Store Announcements">
+    <div>
+      <span class="badge-pill">UNIVERSAL ACCESS</span>
+      <span>Enjoy <strong>FREE delivery</strong> on all orders over <strong>$50.00</strong> | Universal Design Certified</span>
+    </div>
+    <div class="quick-links">
+      <a href="#ud-principles" onclick="document.getElementById('ud-principles').scrollIntoView({behavior: 'smooth'})">Universal Design Standards</a>
+      <a href="#" onclick="openModal('a11y-modal'); return false;">Accessibility Toolkit (?)</a>
+    </div>
+  </aside>
+
+  <!-- Main Site Header -->
+  <header class="site-header" role="banner">
+    <div class="container header-main">
+      <!-- Brand Logo -->
+      <a href="index.html" class="logo-link" aria-label="UniCart Home">
+        <img src="logo.svg" alt="UniCart Logo" width="180" height="48">
+      </a>
+
+      <!-- Live Search Bar with Category Select -->
+      <div class="header-search" role="search">
+        <form class="search-input-wrapper" onsubmit="event.preventDefault();" role="search">
+          <label for="search-category-select" class="sr-only">Filter Search by Category</label>
+          <select id="search-category-select" class="search-category-select" aria-label="Category Selection">
+            <option value="All">All Categories</option>
+            <option value="Electronics">Electronics</option>
+            <option value="Clothing">Clothing</option>
+            <option value="Food">Food</option>
+          </select>
+
+          <label for="search-input" class="sr-only">Search 10 curated products</label>
+          <input 
+            type="search" 
+            id="search-input" 
+            class="search-input" 
+            placeholder="Search products by title, category, or specs (Press / to focus)..." 
+            autocomplete="off"
+            aria-label="Search catalog">
+
+          <button type="button" id="search-clear-btn" class="search-clear-btn" aria-label="Clear Search Query">✕</button>
+        </form>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="header-actions">
+        <!-- Accessibility Center Button -->
+        <button 
+          class="btn-icon-text" 
+          onclick="openModal('a11y-modal')" 
+          aria-label="Open Universal Design & Accessibility Settings">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg>
+          <span>Accessibility</span>
+        </button>
+
+        <!-- Orders History Button -->
+        <button 
+          class="btn-icon-text" 
+          onclick="openOrdersModal()" 
+          aria-label="View Past Orders from LocalStorage">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+          <span>My Orders</span>
+        </button>
+
+        <!-- Shopping Basket Button -->
+        <button 
+          class="btn-icon-text basket-btn btn-open-basket" 
+          aria-label="View Shopping Basket" 
+          aria-expanded="false" 
+          aria-controls="basket-drawer">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+          <span>Basket</span>
+          <span class="basket-badge" id="basket-badge-count">0</span>
+          <span class="basket-subtotal" id="basket-header-subtotal">$0.00</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Category Subnav Pills -->
+    <nav class="subnav-bar" aria-label="Product Categories Navigation">
+      <div class="container">
+        <ul class="subnav-list">
+          <li>
+            <button class="subnav-btn active" data-category-target="All">
+              <span>All Products</span>
+              <span class="count-tag">10</span>
+            </button>
+          </li>
+          <li>
+            <button class="subnav-btn" data-category-target="Electronics">
+              <span>⚡ Electronics</span>
+              <span class="count-tag">4</span>
+            </button>
+          </li>
+          <li>
+            <button class="subnav-btn" data-category-target="Clothing">
+              <span>👕 Clothing</span>
+              <span class="count-tag">3</span>
+            </button>
+          </li>
+          <li>
+            <button class="subnav-btn" data-category-target="Food">
+              <span>☕ Food &amp; Gourmet</span>
+              <span class="count-tag">3</span>
+            </button>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Main Content Container -->
+  <main id="main-content" class="container" role="main" style="padding-top: 24px;">
+
+    <!-- Hero Promotional Banner -->
+    <section class="hero-banner" aria-label="Store Highlights and Promotion">
+      <div class="container hero-grid">
+        <div class="hero-content">
+          <div class="hero-badges">
+            <span class="hero-pill">
+              <svg fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+              Universal Design (WCAG AAA)
+            </span>
+            <span class="hero-pill">
+              <svg fill="currentColor" viewBox="0 0 20 20"><path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z"/><path fill-rule="evenodd" d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z" clip-rule="evenodd"/></svg>
+              LocalStorage Synced
+            </span>
+            <span class="hero-pill">
+              <svg fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 2a1 1 0 00-1 1v1a1 1 0 002 0V3a1 1 0 00-1-1zM4 5a1 1 0 011 1v1a1 1 0 01-2 0V6a1 1 0 011-1zm12 0a1 1 0 011 1v1a1 1 0 11-2 0V6a1 1 0 011-1zM2 10a1 1 0 011-1h1a1 1 0 110 2H3a1 1 0 01-1-1zm14 0a1 1 0 011-1h1a1 1 0 110 2h-1a1 1 0 01-1-1zM6 16a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1z" clip-rule="evenodd"/></svg>
+              Pure HTML / CSS / JavaScript
+            </span>
+          </div>
+          <h1>Universal Quality Products, <span>Engineered For Everyone</span></h1>
+          <p>Explore 10 curated premium products across 3 essential categories. Built with keyboard navigation, screen reader assistance, high contrast modes, and persistent offline storage.</p>
+          <div class="hero-actions">
+            <button class="btn-primary btn-open-basket">
+              View Shopping Basket
+            </button>
+            <button class="btn-secondary" onclick="openModal('a11y-modal')">
+              Adjust Accessibility
+            </button>
+          </div>
+        </div>
+
+        <!-- 10% Discount Promo Card -->
+        <div class="hero-promo-card">
+          <h3>Exclusive Promo Discount</h3>
+          <p>Apply coupon at checkout or basket to enjoy 10% off your entire order!</p>
+          <div class="promo-code-box" onclick="applyPromoCode('UNICART10')" title="Click to apply automatically">
+            <code>UNICART10</code>
+            <span style="font-size: 11px; background: rgba(56, 189, 248, 0.2); color: #38bdf8; padding: 2px 6px; border-radius: 4px;">Click to Apply</span>
+          </div>
+          <span class="promo-copy-hint">Valid across all 10 products with live recalculation</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Catalog Controls & Filters -->
+    <section class="controls-section" aria-label="Catalog Filtering and Sorting Controls">
+      <div class="controls-grid">
+        <div class="controls-left">
+          <!-- Price Range Filter Slider -->
+          <div class="filter-group price-slider-group">
+            <label for="price-range-slider" class="filter-label">Max Price:</label>
+            <input 
+              type="range" 
+              id="price-range-slider" 
+              min="20" 
+              max="250" 
+              step="5" 
+              value="250" 
+              aria-label="Filter products by maximum price">
+            <span class="price-display-val" id="price-val-display">$250</span>
+          </div>
+
+          <!-- In Stock Only Checkbox -->
+          <label class="custom-checkbox">
+            <input type="checkbox" id="chk-instock-only" aria-label="Show in stock products only">
+            <span>In-Stock Only</span>
+          </label>
+        </div>
+
+        <div class="controls-right">
+          <!-- Sort Options -->
+          <div class="filter-group">
+            <label for="sort-select" class="filter-label">Sort By:</label>
+            <select id="sort-select" class="filter-select" aria-label="Sort product catalog">
+              <option value="featured">Featured (Default)</option>
+              <option value="price-asc">Price: Low to High</option>
+              <option value="price-desc">Price: High to Low</option>
+              <option value="rating-desc">Highest Customer Rating</option>
+              <option value="name-asc">Product Name (A-Z)</option>
+            </select>
+          </div>
+
+          <!-- Result Count & Reset Filters -->
+          <span class="results-count" id="results-count-label">Showing 10 of 10 products</span>
+          <button class="btn-reset-filters" onclick="resetAllFilters()" aria-label="Reset all search and price filters">Reset Filters</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Product Cards Grid (Populated dynamically by app.js) -->
+    <section aria-label="Product Catalog">
+      <div class="products-grid" id="products-grid-container" role="region" aria-live="polite">
+        <!-- Products will be rendered here by app.js -->
+      </div>
+    </section>
+
+    <!-- Universal Design Standards Implementation Notice (For Academic Evaluation) -->
+    <section class="ud-principles-banner" id="ud-principles" aria-labelledby="ud-title">
+      <div class="ud-header">
+        <h2 id="ud-title">
+          <svg width="28" height="28" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+          Universal Design Principles Implementation
+        </h2>
+        <span class="badge badge-amazonchoice">BSc(Hons) Software Engineering</span>
+      </div>
+      <div class="ud-grid">
+        <div class="ud-card">
+          <h4>1. Equitable Use</h4>
+          <p>Identical access for all users: WCAG AAA High Contrast mode, Dyslexia-friendly font scale, and Text-to-Speech audio reader.</p>
+        </div>
+        <div class="ud-card">
+          <h4>2. Flexibility in Use</h4>
+          <p>Full keyboard navigation (shortcuts '?', 'C', '/'), live multi-criteria filtering, price range slider, and multiple mock payment choices.</p>
+        </div>
+        <div class="ud-card">
+          <h4>3. Simple &amp; Intuitive</h4>
+          <p>Standard e-commerce layout modeled on Amazon, eBay, and Argos. Clear 4-step checkout flow with visible progress indicators.</p>
+        </div>
+        <div class="ud-card">
+          <h4>4. Perceptible Information</h4>
+          <p>Redundant coding: colors, icons, text labels, and ARIA live regions ensure information is perceptible regardless of ambient conditions.</p>
+        </div>
+        <div class="ud-card">
+          <h4>5. Tolerance for Error</h4>
+          <p>Real-time form validation, stock bounds enforcement, instant "Undo" on item removals, and 1-click Demo Auto-Fill.</p>
+        </div>
+        <div class="ud-card">
+          <h4>6. Low Physical Effort</h4>
+          <p>Sticky header navigation, 1-click add-to-basket, quick-view modals, and persistent state avoiding repetitive user inputs.</p>
+        </div>
+        <div class="ud-card">
+          <h4>7. Size &amp; Space for Approach</h4>
+          <p>Generous touch targets (min 44px), comfortable spacing, responsive layout for phones, tablets, laptops, and ultra-wide screens.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Backdrop for Drawers and Modals -->
+  <div class="modal-backdrop" id="modal-backdrop" tabindex="-1" aria-hidden="true"></div>
+
+  <!-- Shopping Basket Slide-Over Drawer -->
+  <aside 
+    class="basket-drawer" 
+    id="basket-drawer" 
+    role="dialog" 
+    aria-modal="true" 
+    aria-labelledby="drawer-item-count-title">
+    <div class="drawer-header">
+      <h2 id="drawer-item-count-title">Shopping Basket (0 items)</h2>
+      <button class="btn-close-drawer" onclick="closeDrawer('basket-drawer')" aria-label="Close Shopping Basket">✕</button>
+    </div>
+
+    <!-- Free Delivery Progress Meter -->
+    <div class="shipping-meter-box">
+      <div class="shipping-meter-text" id="shipping-meter-status">
+        Add <strong>$50.00</strong> to unlock FREE Delivery!
+      </div>
+      <div class="shipping-progress-track">
+        <div class="shipping-progress-bar" id="shipping-progress-fill" style="width: 0%;"></div>
+      </div>
+    </div>
+
+    <!-- Scrollable Basket Items -->
+    <div class="drawer-body">
+      <!-- Empty Basket State -->
+      <div class="empty-basket-view" id="basket-empty-view">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+        <h3>Your basket is empty</h3>
+        <p>Explore our 10 products and add items to begin your mock shopping journey.</p>
+        <button class="btn-primary" onclick="closeDrawer('basket-drawer')">Start Shopping</button>
+      </div>
+
+      <!-- Items List -->
+      <div class="basket-items-list" id="basket-items-container">
+        <!-- Rendered dynamically by app.js -->
+      </div>
+    </div>
+
+    <!-- Basket Footer & Checkout Call-to-Action -->
+    <div class="drawer-footer" id="basket-drawer-footer" style="display: none;">
+      <!-- Promo code voucher input -->
+      <div class="promo-input-row">
+        <label for="promo-input-field" class="sr-only">Enter Promotional Voucher Code</label>
+        <input 
+          type="text" 
+          id="promo-input-field" 
+          class="promo-input" 
+          placeholder="Promo Code (e.g. UNICART10)" 
+          autocomplete="off">
+        <button class="btn-apply-promo" onclick="applyPromoCode()">Apply</button>
+      </div>
+
+      <!-- Price Totals Breakdown -->
+      <div class="basket-summary-row">
+        <span>Items Subtotal:</span>
+        <span id="drawer-subtotal-val">$0.00</span>
+      </div>
+      <div class="basket-summary-row" id="drawer-discount-row" style="display: none; color: var(--success); font-weight: 700;">
+        <span>Promo Discount:</span>
+        <span id="drawer-discount-val">-$0.00</span>
+      </div>
+      <div class="basket-summary-row">
+        <span>Estimated Delivery:</span>
+        <span id="drawer-shipping-val">FREE</span>
+      </div>
+      <div class="basket-summary-row">
+        <span>Estimated Tax (5%):</span>
+        <span id="drawer-tax-val">$0.00</span>
+      </div>
+      <div class="basket-summary-row total-row">
+        <span>Total:</span>
+        <span id="drawer-grandtotal-val">$0.00</span>
+      </div>
+
+      <div class="drawer-actions">
+        <button class="btn-checkout-drawer" onclick="startCheckout()">
+          <span>Proceed to Checkout</span>
+          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+        </button>
+        <button class="btn-clear-basket" onclick="clearCart()">Clear Basket</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Quick View Product Modal -->
+  <div 
+    class="modal-window" 
+    id="quick-view-modal" 
+    role="dialog" 
+    aria-modal="true" 
+    aria-labelledby="qv-title">
+    <div class="modal-header">
+      <h2 id="qv-title">Product Details</h2>
+      <button class="btn-close-drawer" onclick="closeModal('quick-view-modal')" aria-label="Close Details Modal">✕</button>
+    </div>
+    <div class="modal-body" id="quick-view-modal-content">
+      <!-- Populated dynamically by openQuickView() -->
+    </div>
+  </div>
+
+  <!-- Mock Checkout Modal (4-Step Wizard) -->
+  <div 
+    class="modal-window checkout-modal" 
+    id="checkout-modal" 
+    role="dialog" 
+    aria-modal="true" 
+    aria-labelledby="checkout-wizard-title">
+    <div class="modal-header">
+      <h2 id="checkout-wizard-title">Secure Mock Checkout</h2>
+      <button class="btn-close-drawer" onclick="closeModal('checkout-modal')" aria-label="Close Checkout">✕</button>
+    </div>
+
+    <div class="modal-body">
+      <!-- Checkout Stepper Bar -->
+      <nav class="checkout-steps-bar" aria-label="Checkout Progress Steps">
+        <div class="checkout-step-item active" id="checkout-step-1">
+          <div class="step-circle">1</div>
+          <span class="step-title">Shipping</span>
+        </div>
+        <div class="checkout-step-item" id="checkout-step-2">
+          <div class="step-circle">2</div>
+          <span class="step-title">Payment</span>
+        </div>
+        <div class="checkout-step-item" id="checkout-step-3">
+          <div class="step-circle">3</div>
+          <span class="step-title">Review</span>
+        </div>
+        <div class="checkout-step-item" id="checkout-step-4">
+          <div class="step-circle">4</div>
+          <span class="step-title">Confirmation</span>
+        </div>
+      </nav>
+
+      <!-- STEP 1: Shipping Details Form -->
+      <div id="checkout-pane-step-1" class="checkout-pane">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <h3 style="font-size: var(--font-base); font-weight: 800;">Customer &amp; Shipping Details</h3>
+          <button type="button" class="btn-autofill-demo" onclick="autofillDemoCustomer()">
+            ⚡ 1-Click Auto-Fill Demo Data
+          </button>
+        </div>
+
+        <form id="shipping-form" onsubmit="return handleStep1ShippingSubmit(event)">
+          <div class="form-grid">
+            <div class="form-field">
+              <label for="cust-fullname" class="form-label">Full Name *</label>
+              <input type="text" id="cust-fullname" class="form-input" required placeholder="e.g. Alex Mercer">
+            </div>
+
+            <div class="form-field">
+              <label for="cust-email" class="form-label">Email Address *</label>
+              <input type="email" id="cust-email" class="form-input" required placeholder="alex.mercer@university.ac.uk">
+            </div>
+
+            <div class="form-field">
+              <label for="cust-phone" class="form-label">Phone Number</label>
+              <input type="tel" id="cust-phone" class="form-input" placeholder="+44 7700 900452">
+            </div>
+
+            <div class="form-field form-full">
+              <label for="cust-address" class="form-label">Delivery Street Address *</label>
+              <input type="text" id="cust-address" class="form-input" required placeholder="42 Highfield Innovation Lane">
+            </div>
+
+            <div class="form-field">
+              <label for="cust-city" class="form-label">City *</label>
+              <input type="text" id="cust-city" class="form-input" required placeholder="Southampton">
+            </div>
+
+            <div class="form-field">
+              <label for="cust-postal" class="form-label">Postal / Zip Code *</label>
+              <input type="text" id="cust-postal" class="form-input" required placeholder="SO17 1BJ">
+            </div>
+          </div>
+
+          <div style="margin-top: 24px; display: flex; justify-content: flex-end;">
+            <button type="submit" class="btn-primary">
+              Continue to Payment →
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- STEP 2: Payment Method Form with Live Card Preview -->
+      <div id="checkout-pane-step-2" class="checkout-pane" style="display: none;">
+        <h3 style="font-size: var(--font-base); font-weight: 800; margin-bottom: 12px;">Select Mock Payment Method</h3>
+
+        <div class="payment-methods-grid">
+          <button type="button" class="payment-method-btn active" data-method="card" onclick="selectPaymentMethod('card')">
+            <span style="font-size: 20px;">💳</span>
+            <span>Credit / Debit Card</span>
+          </button>
+          <button type="button" class="payment-method-btn" data-method="paypal" onclick="selectPaymentMethod('paypal')">
+            <span style="font-size: 20px;">🅿️</span>
+            <span>Mock PayPal</span>
+          </button>
+          <button type="button" class="payment-method-btn" data-method="cod" onclick="selectPaymentMethod('cod')">
+            <span style="font-size: 20px;">💵</span>
+            <span>Cash on Delivery</span>
+          </button>
+        </div>
+
+        <div id="card-payment-fields">
+          <!-- Live Interactive Card Preview Visual -->
+          <div class="card-preview-box" aria-hidden="true">
+            <div class="card-preview-chip"></div>
+            <div class="card-preview-number" id="card-preview-number-display">•••• •••• •••• ••••</div>
+            <div class="card-preview-row">
+              <div>
+                <div class="card-preview-holder-label">Cardholder</div>
+                <div class="card-preview-holder" id="card-preview-holder-display">ALEX MERCER</div>
+              </div>
+              <div>
+                <div class="card-preview-holder-label">Expires</div>
+                <div class="card-preview-expiry" id="card-preview-expiry-display">12/28</div>
+              </div>
+            </div>
+          </div>
+
+          <form id="payment-card-form" onsubmit="return handleStep2PaymentSubmit(event)">
+            <div class="form-grid">
+              <div class="form-field form-full">
+                <label for="card-name" class="form-label">Name on Card *</label>
+                <input 
+                  type="text" 
+                  id="card-name" 
+                  class="form-input" 
+                  required 
+                  placeholder="Alex Mercer"
+                  value="Alex Mercer"
+                  oninput="updateCardHolderPreview(this)">
+              </div>
+
+              <div class="form-field form-full">
+                <label for="card-number" class="form-label">Card Number *</label>
+                <input 
+                  type="text" 
+                  id="card-number" 
+                  class="form-input" 
+                  required 
+                  maxlength="19" 
+                  placeholder="4532 8920 1834 4242"
+                  value="4532 8920 1834 4242"
+                  oninput="formatCardNumber(this)">
+              </div>
+
+              <div class="form-field">
+                <label for="card-expiry" class="form-label">Expiration Date (MM/YY) *</label>
+                <input 
+                  type="text" 
+                  id="card-expiry" 
+                  class="form-input" 
+                  required 
+                  maxlength="5" 
+                  placeholder="12/28"
+                  value="12/28"
+                  oninput="formatCardExpiry(this)">
+              </div>
+
+              <div class="form-field">
+                <label for="card-cvv" class="form-label">Security Code (CVV) *</label>
+                <input 
+                  type="password" 
+                  id="card-cvv" 
+                  class="form-input" 
+                  required 
+                  maxlength="4" 
+                  placeholder="•••"
+                  value="789">
+              </div>
+            </div>
+
+            <div style="margin-top: 24px; display: flex; justify-content: space-between;">
+              <button type="button" class="btn-secondary" onclick="setCheckoutStep(1)">← Back to Shipping</button>
+              <button type="submit" class="btn-primary">Review Order →</button>
+            </div>
+          </form>
+        </div>
+
+        <div id="alt-payment-message" style="display: none; padding: 20px; background: var(--bg-subtle); border-radius: var(--radius-md); text-align: center;">
+          <p style="font-size: var(--font-sm); margin-bottom: 20px;"></p>
+          <div style="display: flex; justify-content: space-between;">
+            <button type="button" class="btn-secondary" onclick="setCheckoutStep(1)">← Back</button>
+            <button type="button" class="btn-primary" onclick="setCheckoutStep(3)">Review Order →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 3: Order Review & Confirmation -->
+      <div id="checkout-pane-step-3" class="checkout-pane" style="display: none;">
+        <h3 style="font-size: var(--font-base); font-weight: 800; margin-bottom: 12px;">Review Your Order</h3>
+        
+        <div id="checkout-review-summary">
+          <!-- Populated dynamically by renderCheckoutReview() -->
+        </div>
+
+        <div style="margin-top: 16px;">
+          <label class="custom-checkbox">
+            <input type="checkbox" id="chk-terms-agree" checked>
+            <span>I confirm this mock purchase and adhere to the Universal Design accessibility standards.</span>
+          </label>
+        </div>
+
+        <div style="margin-top: 24px; display: flex; justify-content: space-between;">
+          <button type="button" class="btn-secondary" onclick="setCheckoutStep(2)">← Back to Payment</button>
+          <button type="button" class="btn-primary" onclick="placeFinalOrder()">
+            Place Order &amp; Generate Invoice
+          </button>
+        </div>
+      </div>
+
+      <!-- STEP 4: Success & Printable Invoice -->
+      <div id="checkout-pane-step-4" class="checkout-pane" style="display: none;">
+        <div id="checkout-confirmation-container">
+          <!-- Populated dynamically by renderOrderConfirmation() -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Universal Design & Accessibility Settings Modal -->
+  <div 
+    class="modal-window" 
+    id="a11y-modal" 
+    role="dialog" 
+    aria-modal="true" 
+    aria-labelledby="a11y-modal-title">
+    <div class="modal-header">
+      <h2 id="a11y-modal-title">Universal Design &amp; Accessibility Center</h2>
+      <button class="btn-close-drawer" onclick="closeModal('a11y-modal')" aria-label="Close Accessibility Center">✕</button>
+    </div>
+
+    <div class="modal-body">
+      <!-- Theme Selection -->
+      <div class="a11y-control-row">
+        <div class="a11y-control-info">
+          <h4>Contrast &amp; Color Theme</h4>
+          <p>Choose high contrast for maximum visibility or switch between light and dark modes.</p>
+        </div>
+        <div class="theme-options-group">
+          <button class="btn-theme-opt" data-theme="light">Light</button>
+          <button class="btn-theme-opt" data-theme="dark">Dark</button>
+          <button class="btn-theme-opt" data-theme="high-contrast">High Contrast</button>
+        </div>
+      </div>
+
+      <!-- Font Size Scaling -->
+      <div class="a11y-control-row">
+        <div class="a11y-control-info">
+          <h4>Text Scaling</h4>
+          <p>Dynamically scale typography up to 130% across the entire store.</p>
+        </div>
+        <div class="font-size-group">
+          <button class="btn-font-size" data-size="sm" title="Small font">A-</button>
+          <button class="btn-font-size active" data-size="base" title="Normal font">A</button>
+          <button class="btn-font-size" data-size="lg" title="Large font">A+</button>
+          <button class="btn-font-size" data-size="xl" title="Extra large font">A++</button>
+        </div>
+      </div>
+
+      <!-- Dyslexic Friendly Font Toggle -->
+      <div class="a11y-control-row">
+        <div class="a11y-control-info">
+          <h4>Dyslexia-Friendly Typography</h4>
+          <p>Enhance letter spacing and character clarity to aid readability.</p>
+        </div>
+        <label class="custom-checkbox">
+          <input type="checkbox" id="chk-dyslexic-font">
+          <span class="sr-only">Toggle Dyslexia font</span>
+        </label>
+      </div>
+
+      <!-- Reduced Motion Toggle -->
+      <div class="a11y-control-row">
+        <div class="a11y-control-info">
+          <h4>Reduced Motion</h4>
+          <p>Disable animations, transitions, and hover zooms for vestibular comfort.</p>
+        </div>
+        <label class="custom-checkbox">
+          <input type="checkbox" id="chk-reduced-motion">
+          <span class="sr-only">Toggle Reduced Motion</span>
+        </label>
+      </div>
+
+      <!-- Speech Assistant Toggle -->
+      <div class="a11y-control-row">
+        <div class="a11y-control-info">
+          <h4>Text-to-Speech Audio Reader</h4>
+          <p>Enable native Web Speech API synthesizer for audible product descriptions.</p>
+        </div>
+        <label class="custom-checkbox">
+          <input type="checkbox" id="chk-speech-toggle" checked>
+          <span class="sr-only">Toggle Text to Speech</span>
+        </label>
+      </div>
+
+      <!-- Keyboard Shortcuts Cheatsheet -->
+      <div style="margin-top: 20px;">
+        <h4 style="font-size: var(--font-sm); font-weight: 800; margin-bottom: 8px;">Keyboard Shortcuts</h4>
+        <table style="width: 100%; font-size: var(--font-xs); border-collapse: collapse;">
+          <tbody>
+            <tr style="border-bottom: 1px solid var(--border-light);"><td style="padding: 6px;"><code>?</code> or <code>H</code></td><td>Open Accessibility Toolkit</td></tr>
+            <tr style="border-bottom: 1px solid var(--border-light);"><td style="padding: 6px;"><code>C</code></td><td>Toggle Shopping Basket Drawer</td></tr>
+            <tr style="border-bottom: 1px solid var(--border-light);"><td style="padding: 6px;"><code>/</code> or <code>S</code></td><td>Focus Global Search Input</td></tr>
+            <tr style="border-bottom: 1px solid var(--border-light);"><td style="padding: 6px;"><code>ESC</code></td><td>Close Any Active Modal or Drawer</td></tr>
+            <tr><td style="padding: 6px;"><code>Tab</code> / <code>Shift+Tab</code></td><td>Navigate Interactive Elements</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="resetAllDemoData()">
+        ⚠️ Reset All Demo Data
+      </button>
+      <button class="btn-primary" onclick="closeModal('a11y-modal')">
+        Save &amp; Close
+      </button>
+    </div>
+  </div>
+
+  <!-- Past Orders Modal (LocalStorage Persisted) -->
+  <div 
+    class="modal-window" 
+    id="orders-modal" 
+    role="dialog" 
+    aria-modal="true" 
+    aria-labelledby="orders-modal-title">
+    <div class="modal-header">
+      <h2 id="orders-modal-title">Order History (LocalStorage)</h2>
+      <button class="btn-close-drawer" onclick="closeModal('orders-modal')" aria-label="Close Orders History">✕</button>
+    </div>
+    <div class="modal-body" id="orders-history-list">
+      <!-- Populated dynamically by openOrdersModal() -->
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="clearOrdersHistory()">Clear Order History</button>
+      <button class="btn-primary" onclick="closeModal('orders-modal')">Close</button>
+    </div>
+  </div>
+
+  <!-- Toast Notifications Floating Container -->
+  <div class="toast-container" id="toast-container" aria-live="polite"></div>
+
+  <!-- Site Footer -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <img src="logo.svg" alt="UniCart Logo" width="160" height="40" style="margin-bottom: 12px;">
+          <p style="font-size: var(--font-xs); color: var(--text-muted); line-height: 1.6; max-width: 380px;">
+            UniCart is an exemplary e-commerce web application developed for BSc(Hons) Software Engineering Year 3 (Task 1: 40%). Created with HTML5, CSS3, and JavaScript adhering strictly to Universal Design Standards and browser LocalStorage specifications without any subfolders.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h4>3 Product Categories</h4>
+          <ul class="footer-links">
+            <li><a href="#" onclick="document.querySelector('[data-category-target=Electronics]').click(); return false;">⚡ Electronics (4 items)</a></li>
+            <li><a href="#" onclick="document.querySelector('[data-category-target=Clothing]').click(); return false;">👕 Clothing (3 items)</a></li>
+            <li><a href="#" onclick="document.querySelector('[data-category-target=Food]').click(); return false;">☕ Food &amp; Gourmet (3 items)</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Universal Standards</h4>
+          <ul class="footer-links">
+            <li><a href="#" onclick="openModal('a11y-modal'); return false;">WCAG AAA Contrast</a></li>
+            <li><a href="#" onclick="openModal('a11y-modal'); return false;">Screen Reader Mode</a></li>
+            <li><a href="#" onclick="openModal('a11y-modal'); return false;">Font Scale Switcher</a></li>
+            <li><a href="#" onclick="openModal('a11y-modal'); return false;">Keyboard Shortcuts</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Academic Submission</h4>
+          <ul class="footer-links">
+            <li><span style="font-size: var(--font-xs); color: var(--text-muted);">BSc(Hons) Software Engineering</span></li>
+            <li><span style="font-size: var(--font-xs); color: var(--text-muted);">Group Size: 3 Students</span></li>
+            <li><span style="font-size: var(--font-xs); color: var(--text-muted);">Module: Task 1 (40%)</span></li>
+            <li style="margin-top: 10px;">
+              <button class="btn-footer-reset" onclick="resetAllDemoData()">
+                ↺ Reset All Demo Data
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>
+          &copy; 2026 UniCart Universal E-Commerce. All files located in one folder without subdirectories.
+        </div>
+        <div>
+          Validated HTML5 • Pure CSS3 • Vanilla JavaScript ES6+ • LocalStorage
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts: Loaded directly from root directory -->
+  <script src="products.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

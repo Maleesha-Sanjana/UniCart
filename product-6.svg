@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 320" width="100%" height="100%" role="img" aria-label="WeatherShield All-Season Technical Rain Parka">
+  <defs>
+    <linearGradient id="bg6" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ECFDF5"/>
+      <stop offset="100%" stop-color="#D1FAE5"/>
+    </linearGradient>
+    <linearGradient id="parkaGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#065F46"/>
+      <stop offset="50%" stop-color="#047857"/>
+      <stop offset="100%" stop-color="#064E3B"/>
+    </linearGradient>
+    <filter id="shadow6" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="12" stdDeviation="10" flood-color="#064E3B" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+  <rect width="400" height="320" rx="20" fill="url(#bg6)"/>
+  <!-- Raindrops decor -->
+  <path d="M 60 40 Q 65 60 65 65 A 5 5 0 0 1 55 65 Q 55 60 60 40 Z" fill="#10B981" opacity="0.3"/>
+  <path d="M 330 70 Q 335 90 335 95 A 5 5 0 0 1 325 95 Q 325 90 330 70 Z" fill="#10B981" opacity="0.3"/>
+  <path d="M 70 240 Q 75 260 75 265 A 5 5 0 0 1 65 265 Q 65 260 70 240 Z" fill="#10B981" opacity="0.3"/>
+  <!-- Technical Parka Silhouette -->
+  <g filter="url(#shadow6)">
+    <!-- Hood -->
+    <path d="M 160 45 C 160 30, 240 30, 240 45 L 245 75 L 155 75 Z" fill="#064E3B" stroke="#047857" stroke-width="2"/>
+    <!-- Body & Sleeves -->
+    <path d="M 155 75 
+             L 110 90 L 70 175 L 105 190 L 130 145 
+             L 130 255 L 270 255 
+             L 270 145 L 295 190 L 330 175 L 290 90 
+             L 245 75 Z" 
+          fill="url(#parkaGrad)" stroke="#047857" stroke-width="2"/>
+    <!-- Center Storm Flap & Waterproof Zipper -->
+    <line x1="200" y1="75" x2="200" y2="255" stroke="#0F172A" stroke-width="5"/>
+    <line x1="200" y1="75" x2="200" y2="255" stroke="#34D399" stroke-width="2" stroke-dasharray="8 4"/>
+    <circle cx="200" cy="85" r="4" fill="#F59E0B"/>
+    <!-- Chest Pocket with taped zipper -->
+    <rect x="145" y="115" width="40" height="25" rx="3" fill="#047857" stroke="#064E3B" stroke-width="1.5"/>
+    <line x1="150" y1="122" x2="180" y2="122" stroke="#0F172A" stroke-width="2"/>
+    <!-- Side Pockets -->
+    <rect x="140" y="180" width="45" height="40" rx="4" fill="#064E3B" stroke="#047857" stroke-width="1.5"/>
+    <rect x="215" y="180" width="45" height="40" rx="4" fill="#064E3B" stroke="#047857" stroke-width="1.5"/>
+    <!-- Drawstring Toggle on Hood -->
+    <circle cx="165" cy="80" r="3" fill="#F59E0B"/>
+    <line x1="165" y1="83" x2="165" y2="100" stroke="#F59E0B" stroke-width="2"/>
+    <!-- Tech Badge on arm -->
+    <rect x="76" y="130" width="16" height="10" rx="2" fill="#0F172A"/>
+    <text x="84" y="138" font-family="system-ui, sans-serif" font-weight="900" font-size="6" fill="#34D399" text-anchor="middle">10K</text>
+  </g>
+  <text x="200" y="285" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#065F46" text-anchor="middle" letter-spacing="1">10,000MM WATERPROOF • TAPED SEAMS • RECYCLED POLY</text>
+</svg>
