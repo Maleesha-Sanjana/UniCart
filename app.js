@@ -1,9 +1,4 @@
-/**
- * UniCart - Universal E-Commerce Application
- * Main Application Logic, State Management & Accessibility Controller
- */
 
-// Global State
 const State = {
   products: [],
   cart: [],
@@ -160,7 +155,7 @@ function announceToScreenReader(message) {
 function getFilteredProducts() {
   return State.products.filter(p => {
     const categoryMatch = (State.activeCategory === 'All') || (p.category.toLowerCase() === State.activeCategory.toLowerCase());
-    
+
     const q = State.searchQuery.trim().toLowerCase();
     const queryMatch = !q || (
       p.name.toLowerCase().includes(q) ||
@@ -568,7 +563,7 @@ function applyPromoCode(inputCode) {
     State.appliedPromo = { code, ...PROMO_CODES[code] };
     try {
       localStorage.setItem(STORAGE_KEYS.PROMO, JSON.stringify(State.appliedPromo));
-    } catch (e) {}
+    } catch (e) { }
     updateCartUI();
     showToast(`Promo "${code}" applied: ${PROMO_CODES[code].label}!`, 'success');
   } else {
@@ -719,8 +714,8 @@ function selectPaymentMethod(method) {
     altDetails.style.display = method === 'card' ? 'none' : 'block';
     const msgPara = altDetails.querySelector('p');
     if (msgPara) {
-      msgPara.textContent = method === 'paypal' 
-        ? 'You will be redirected to PayPal sandbox authorization on final order confirmation.' 
+      msgPara.textContent = method === 'paypal'
+        ? 'You will be redirected to PayPal sandbox authorization on final order confirmation.'
         : 'You can pay in cash or via portable terminal upon arrival of order in Sri Lanka.';
     }
   }
@@ -802,9 +797,9 @@ function renderCheckoutReview() {
     <div style="background: var(--bg-subtle); padding: 16px; border-radius: var(--radius-md); margin-bottom: 16px;">
       <h4 style="font-size: var(--font-sm); font-weight: 800; margin-bottom: 8px;">Payment Method</h4>
       <p style="font-size: var(--font-xs); color: var(--text-secondary);">
-        ${State.checkout.paymentMethod === 'card' 
-          ? `💳 Card: ${State.checkout.cardData ? State.checkout.cardData.maskedNumber : 'Ending in 4242'}`
-          : (State.checkout.paymentMethod === 'paypal' ? '🅿️ PayPal Account' : '💵 Cash / Pay on Delivery')}
+        ${State.checkout.paymentMethod === 'card'
+      ? `💳 Card: ${State.checkout.cardData ? State.checkout.cardData.maskedNumber : 'Ending in 4242'}`
+      : (State.checkout.paymentMethod === 'paypal' ? '🅿️ PayPal Account' : '💵 Cash / Pay on Delivery')}
       </p>
     </div>
 
@@ -1054,7 +1049,7 @@ function renderOrderConfirmationFromHistory(index) {
       setCheckoutStep(4);
       openModal('checkout-modal');
     }
-  } catch (e) {}
+  } catch (e) { }
 }
 
 function clearOrdersHistory() {
